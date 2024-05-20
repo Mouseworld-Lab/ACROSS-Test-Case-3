@@ -29,5 +29,6 @@ router ospf 1
    network 192.168.9.0 0.0.0.255 area 0
    network 192.168.11.0 0.0.0.255 area 2
    network 192.168.10.0 0.0.0.255 area 2
+   network 192.168.19.0 0.0.0.255 area 3
 !
 !
