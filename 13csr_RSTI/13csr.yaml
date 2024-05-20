@@ -1,0 +1,602 @@
+name: 13-csr
+nodes:
+  - name: server1
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+    services:
+      22:
+        name: ssh
+        inside: 22
+  - name: server2
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+    services:
+      22:
+        name: ssh
+        inside: 22
+  - name: server3
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+    services:
+      22:
+        name: ssh
+        inside: 22
+  - name: server4
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+    services:
+      22:
+        name: ssh
+        inside: 22
+  - name: server5
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: client1
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+  - name: client2
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+  - name: client3
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+  - name: client4
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+  - name: client5
+    vendor: HOST
+    config:
+      image: "ubuntu:22.04"
+
+  - name: r1
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r1-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+
+  - name: r2
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r2-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r3
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r3-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r4
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r4-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+      eth6:
+        name: "GigabitEthernet6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r5
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r5-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r6
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r6-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+      eth6:
+        name: "GigabitEthernet6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r7
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r7-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r8
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r8-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r9
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r9-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+  - name: r10
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r10-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+      eth6:
+        name: "GigabitEthernet6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+
+  - name: r11
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r11-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+
+  - name: r12
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r12-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+
+  - name: r13
+    vendor: CISCO
+    os: "ios-xe"
+    config:
+      config_path: "/"
+      config_file: "iosxe_config.txt"
+      file: "r13-config"
+      image: "amaesob/amaesob:17.03.06sr3"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    interfaces:
+      eth2:
+        name: "GigabitEthernet2"
+      eth3:
+        name: "GigabitEthernet3"
+      eth4:
+        name: "GigabitEthernet4"
+      eth5:
+        name: "GigabitEthernet5"
+    services:
+      22:
+        name: ssh
+        inside: 22
+      830:
+        name: netconf
+        inside: 830
+
+links:
+  - a_node: "r11"
+    a_int: "eth2"
+    z_node: "r1"
+    z_int: "eth4"
+
+  - a_node: "r11"
+    a_int: "eth3"
+    z_node: "r4"
+    z_int: "eth6"
+
+  - a_node: "r11"
+    a_int: "eth4"
+    z_node: "server1"
+    z_int: "eth1"
+
+  - a_node: "r11"
+    a_int: "eth5"
+    z_node: "client1"
+    z_int: "eth1"
+
+  - a_node: "r8"
+    a_int: "eth2"
+    z_node: "r4"
+    z_int: "eth5"
+
+  - a_node: "r8"
+    a_int: "eth3"
+    z_node: "r9"
+    z_int: "eth2"
+
+  - a_node: "r8"
+    a_int: "eth5"
+    z_node: "server4"
+    z_int: "eth1"
+
+  - a_node: "r8"
+    a_int: "eth4"
+    z_node: "client4"
+    z_int: "eth1"
+
+  - a_node: "r1"
+    a_int: "eth3"
+    z_node: "r2"
+    z_int: "eth2"
+
+  - a_node: "r1"
+    a_int: "eth2"
+    z_node: "r4"
+    z_int: "eth2"
+
+  - a_node: "r4"
+    a_int: "eth3"
+    z_node: "r6"
+    z_int: "eth2"
+
+  - a_node: "r4"
+    a_int: "eth4"
+    z_node: "r9"
+    z_int: "eth3"
+
+  - a_node: "r9"
+    a_int: "eth4"
+    z_node: "r6"
+    z_int: "eth6"
+
+  - a_node: "r9"
+    a_int: "eth5"
+    z_node: "r10"
+    z_int: "eth2"
+
+  - a_node: "r6"
+    a_int: "eth3"
+    z_node: "r5"
+    z_int: "eth3"
+
+  - a_node: "r6"
+    a_int: "eth4"
+    z_node: "r7"
+    z_int: "eth5"
+
+  - a_node: "r6"
+    a_int: "eth5"
+    z_node: "r10"
+    z_int: "eth3"
+
+  - a_node: "r10"
+    a_int: "eth4"
+    z_node: "r7"
+    z_int: "eth4"
+
+  - a_node: "r10"
+    a_int: "eth6"
+    z_node: "server5"
+    z_int: "eth1"
+
+  - a_node: "r10"
+    a_int: "eth5"
+    z_node: "client5"
+    z_int: "eth1"
+
+  - a_node: "r5"
+    a_int: "eth2"
+    z_node: "r2"
+    z_int: "eth5"
+
+  - a_node: "r2"
+    a_int: "eth3"
+    z_node: "r12"
+    z_int: "eth4"
+
+  - a_node: "r2"
+    a_int: "eth4"
+    z_node: "r3"
+    z_int: "eth2"
+
+  - a_node: "r3"
+    a_int: "eth4"
+    z_node: "r7"
+    z_int: "eth2"
+
+  - a_node: "r3"
+    a_int: "eth3"
+    z_node: "r13"
+    z_int: "eth2"
+
+  - a_node: "r3"
+    a_int: "eth5"
+    z_node: "r12"
+    z_int: "eth3"
+
+  - a_node: "r7"
+    a_int: "eth3"
+    z_node: "r13"
+    z_int: "eth5"
+
+  - a_node: "r12"
+    a_int: "eth5"
+    z_node: "server2"
+    z_int: "eth1"
+
+  - a_node: "r12"
+    a_int: "eth2"
+    z_node: "client2"
+    z_int: "eth1"
+
+  - a_node: "r13"
+    a_int: "eth3"
+    z_node: "server3"
+    z_int: "eth1"
+
+  - a_node: "r13"
+    a_int: "eth4"
+    z_node: "client3"
+    z_int: "eth1"
