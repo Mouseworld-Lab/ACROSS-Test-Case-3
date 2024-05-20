@@ -1,4 +1,4 @@
-name: 10-csr
+name: 13-csr
 nodes:
   - name: server1
     vendor: HOST
@@ -10,18 +10,18 @@ nodes:
     vendor: HOST
   - name: server5
     vendor: HOST
-    
+
   - name: client1
     vendor: HOST
   - name: client2
     vendor: HOST
   - name: client3
-    vendor: HOST    
+    vendor: HOST
   - name: client4
     vendor: HOST
   - name: client5
     vendor: HOST
-    
+
   - name: r1
     vendor: CISCO
     os: "ios-xe"
@@ -344,7 +344,7 @@ nodes:
       830:
         name: netconf
         inside: 830
-        
+
   - name: r12
     vendor: CISCO
     os: "ios-xe"
@@ -410,17 +410,17 @@ links:
     a_int: "eth2"
     z_node: "r1"
     z_int: "eth4"
-    
+
   - a_node: "r11"
     a_int: "eth3"
     z_node: "r4"
-    z_int: "eth3"
-    
+    z_int: "eth6"
+
   - a_node: "r11"
     a_int: "eth4"
     z_node: "server1"
     z_int: "eth1"
-    
+
   - a_node: "r11"
     a_int: "eth5"
     z_node: "client1"
@@ -430,42 +430,47 @@ links:
     a_int: "eth2"
     z_node: "r4"
     z_int: "eth5"
-    
+
   - a_node: "r8"
     a_int: "eth3"
     z_node: "r9"
     z_int: "eth2"
-    
+
   - a_node: "r8"
     a_int: "eth5"
     z_node: "server4"
     z_int: "eth1"
-    
+
   - a_node: "r8"
     a_int: "eth4"
     z_node: "client4"
     z_int: "eth1"
-    
+
   - a_node: "r1"
     a_int: "eth3"
     z_node: "r2"
     z_int: "eth2"
-    
+
   - a_node: "r1"
     a_int: "eth2"
     z_node: "r4"
     z_int: "eth2"
-    
+
   - a_node: "r4"
     a_int: "eth3"
     z_node: "r6"
     z_int: "eth2"
-    
+
+  - a_node: "r4"
+    a_int: "eth4"
+    z_node: "r9"
+    z_int: "eth3"
+
   - a_node: "r9"
-    a_int: "eth3"
+    a_int: "eth4"
     z_node: "r6"
     z_int: "eth6"
-    
+
   - a_node: "r9"
     a_int: "eth5"
     z_node: "r10"
@@ -475,16 +480,16 @@ links:
     a_int: "eth3"
     z_node: "r5"
     z_int: "eth3"
-    
+
   - a_node: "r6"
-    a_int: "eth3"
+    a_int: "eth4"
     z_node: "r7"
     z_int: "eth5"
 
   - a_node: "r6"
-    a_int: "eth4"
+    a_int: "eth5"
     z_node: "r10"
-    z_int: "eth3"    
+    z_int: "eth3"
 
   - a_node: "r10"
     a_int: "eth4"
@@ -505,37 +510,37 @@ links:
     a_int: "eth2"
     z_node: "r2"
     z_int: "eth5"
-    
+
   - a_node: "r2"
     a_int: "eth3"
     z_node: "r12"
     z_int: "eth4"
-    
+
   - a_node: "r2"
     a_int: "eth4"
     z_node: "r3"
     z_int: "eth2"
-    
+
   - a_node: "r3"
     a_int: "eth4"
     z_node: "r7"
     z_int: "eth2"
-    
+
   - a_node: "r3"
     a_int: "eth3"
     z_node: "r13"
     z_int: "eth2"
-    
+
   - a_node: "r3"
     a_int: "eth5"
     z_node: "r12"
     z_int: "eth3"
-    
+
   - a_node: "r7"
-    a_int: "eth2"
+    a_int: "eth3"
     z_node: "r13"
     z_int: "eth5"
-    
+
   - a_node: "r12"
     a_int: "eth5"
     z_node: "server2"
@@ -545,14 +550,13 @@ links:
     a_int: "eth2"
     z_node: "client2"
     z_int: "eth1"
-    
+
   - a_node: "r13"
     a_int: "eth3"
     z_node: "server3"
     z_int: "eth1"
-    
+
   - a_node: "r13"
     a_int: "eth4"
     z_node: "client3"
     z_int: "eth1"
-    
