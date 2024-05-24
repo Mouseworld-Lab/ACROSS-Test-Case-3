@@ -1,5 +1,6 @@
 import os
 import re
+import yaml
 
 def parse_interface_configs(file_content):
     interfaces = {}
@@ -41,6 +42,7 @@ def parse_interface_configs(file_content):
 def read_config_files(directory):
     nodes = {}
     ip_to_interface = {}
+    ip_interface_per_router = {}  # Dictionary to store IP-interface relationship per router
 
     for filename in os.listdir(directory):
         if filename.endswith("-config"):
@@ -49,10 +51,12 @@ def read_config_files(directory):
                 file_content = file.readlines()
                 interfaces = parse_interface_configs(file_content)
                 nodes[node_name] = interfaces
+                ip_interface_per_router[node_name] = {}  # Initialize dictionary for the router
                 for interface, details in interfaces.items():
                     if 'ip' in details:
                         ip_to_interface[details['ip']] = (node_name, interface)
-    return nodes, ip_to_interface
+                        ip_interface_per_router[node_name][details['ip']] = interface.replace('GigabitEthernet', 'eth')  # Store IP-interface relationship for the router
+    return nodes, ip_to_interface, ip_interface_per_router
 
 def ip_to_network(ip, subnet):
     ip_parts = list(map(int, ip.split('.')))
@@ -91,13 +95,65 @@ def format_links(links):
         output += '\n'
     return output
 
+def format_ip_interface(ip_interface_per_router):
+    output = "IP-Interface per Router:\n"
+    for router, ip_interface in ip_interface_per_router.items():
+        output += f'  Router: {router}\n'
+        for ip, interface in ip_interface.items():
+            output += f'    {ip}: {interface}\n'
+        output += '\n'
+    return output
+
+def generate_sub_links(config_file, ip_interface_per_router):
+    sub_links = []
+
+    with open(config_file, 'r') as file:
+        data = yaml.safe_load(file)
+
+        for entity, info in data.items():
+            gateway = info['gateway']
+            if gateway in ip_interface_per_router:
+                for ip, interface in ip_interface_per_router[gateway].items():
+                    # Check if the server/client IP is in the same subnet as the router interface
+                    router_ip = ip.split('.')[0] + '.' + ip.split('.')[1] + '.' + ip.split('.')[2]
+                    if info['network'].startswith(router_ip):
+                        sub_links.append({
+                            "a_node": gateway,
+                            "a_int": interface,
+                            "z_node": entity,
+                            "z_int": info['interface']
+                        })
+
+    return sub_links
+
+def format_sub_links(sub_links):
+    output = "sub_links:\n"
+    for link in sub_links:
+        output += f'  - a_node: "{link["a_node"]}"\n'
+        output += f'    a_int: "{link["a_int"]}"\n'
+        output += f'    z_node: "{link["z_node"]}"\n'
+        output += f'    z_int: "{link["z_int"]}"\n'
+        output += '\n'
+    return output
+
 def main():
     directory = '/home/mario/ACROSS_test/router_config'  # Assuming the config files are in the current directory
-    nodes, ip_to_interface = read_config_files(directory)
+    nodes, ip_to_interface, ip_interface_per_router = read_config_files(directory)
     links = generate_links(nodes, ip_to_interface)
-    output = format_links(links)
+    output_links = format_links(links)
+    output_ip_interface = format_ip_interface(ip_interface_per_router)
+
+    config_file = '/home/mario/ACROSS_test/configuration/servers_clients.yaml'
+    sub_links = generate_sub_links(config_file, ip_interface_per_router)
+    output_sub_links = format_sub_links(sub_links)
+
+    # Combine links, sub_links, and ip_interface_per_router into a single output
+    output = output_links + output_sub_links + output_ip_interface
+
+    # Remove "sub_links:" from the output
+    output = output.replace("sub_links:\n", "")
+
     print(output)
 
 if __name__ == "__main__":
     main()
-
