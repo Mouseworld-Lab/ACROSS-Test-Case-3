@@ -8,11 +8,11 @@ sudo sysctl fs.inotify.max_user_instances=65000
 https://www.fortaspen.com/install-kubernetes-docker-ubuntu-linux-22-04/
 
 Modify /etc/hosts
-
-k8-controller 10.100.110.210
-k8-worker-1 10.100.110.213
-k8-worker-2 10.100.110.27
-k8-worker-3 10.100.110.18
+ 
+10.100.110.210 k8-controller 
+10.100.110.213 k8-worker-1 
+10.100.110.27 k8-worker-2 
+10.100.110.18 k8-worker-3 
 
 swapoff -a
 
