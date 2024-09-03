@@ -53,7 +53,7 @@ service-r9    LoadBalancer   10.102.85.108    172.18.0.58   22:32289/TCP,830:302
 ssh vrnetlab@172.18.0.58
 Password: VR-netlab9
 ```
-- Start ssh on servers & clients containers
+- Start ssh in the server and client containers
 
 ```bash
 kubectl -n 13-csr exec -it server1 -- service ssh start
