@@ -14,7 +14,6 @@ RUN apt-get update \
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN useradd -m -s /bin/bash across
 RUN echo "across:${PASSWORD}" | chpasswd
+RUN service ssh start 
 
 EXPOSE 22
-
-ENTRYPOINT service ssh start && bash
