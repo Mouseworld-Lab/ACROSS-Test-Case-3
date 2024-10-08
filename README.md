@@ -60,13 +60,13 @@ We can deploy two types of clients depending on the traffic we want to generate 
 ![image1](images/image1.png)
 
 
-> **Note:**  Currently the topology configuration has support for 10 clients of each type.
+> **Note:**  Currently the topology configuration has support for 24 cgclients and 20 ddosclients.
 
 ### - mw-deployment.yaml
 
 Inside the playbook we run the configuration file that Kne uses to create the topology through which the traffic will pass. This brings up all the routers following the topology built in EVE-NG.
 
-> **Note:**  In this file you must configure the path where the kne topology file is (kne create <path_to_kne_file>). Currently the server is configured with the following path: ~/kne/examples/cisco/conversion/Topologias/ddos/TopologiaDdos.yaml
+> **Note:**  In this file you must configure the path where the kne topology file is (kne create <path_to_kne_file>). Currently is configured with the following path: ~/NDT_TC3.5_topology/10ceos_24cg_20dd_10ceos_rev4/TopologiaACROSS.yaml
 
 ### - mw-config.yaml
 
