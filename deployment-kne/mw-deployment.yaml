@@ -1,0 +1,19 @@
+---
+- name: Topology Deployment using kne
+  hosts: localhost
+  gather_facts: no
+  tasks: 
+ #--------------------------------------------Deploy kne---------------------------------------------------------------------------
+ 
+    - name: Deploy topology
+      shell: kne create ~/NDT_TC3.5_topology/10ceos_24cg_20dd_10ceos_rev4/TopologiaACROSS.yaml # Configure the path where the kne topology file is
+
+    - name: config map
+      shell: kubectl create configmap gateway2-config --from-file=$(echo ~/NDT_TC3.5_topology/10ceos_24cg_20dd_10ceos_rev4/configuracion/gateway2-config.py) -n ddos
+
+    - name: Deploy gateway2
+      shell: kubectl apply -f ~/NDT_TC3.5_topology/10ceos_24cg_20dd_10ceos_rev4/pod-gateway2.yaml
+
+    - name: Wait for 20 seconds
+      pause:
+        seconds: 20

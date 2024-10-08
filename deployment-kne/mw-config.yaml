@@ -1,0 +1,254 @@
+---
+- name: Topology Configuration
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+    limit_cg: 25
+    limit_ddos: 21
+    
+  tasks:
+#------------------------------------------Configuration---------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: clients_number.yaml
+        
+    - name: Create cgclients_count
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+
+    - name: Create ddosclients_count
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+
+
+    - name: Delete usless cgclients
+      shell: kubectl delete pod -n ddos {{ 'cgclient' ~ item }}
+      loop: "{{ range(cg_count + 1, limit_cg) | list }}"
+      ignore_errors: yes
+
+    - name: Delete usless ddosclients
+      shell: kubectl delete pod -n ddos {{ 'ddosclient' ~ item }}
+      loop: "{{ range(ddos_count + 1, limit_ddos) | list }}"
+      ignore_errors: yes
+
+#------------------------------------------Ip_routes---------------------------------------------------------------------      
+
+    - name: Configure cgserver
+      shell: kubectl exec -it -n ddos cgserver -- python3 cgserver-config.py
+      
+    - name: Configure ddosserver
+      shell: kubectl exec -it -n ddos ddosserver -- python3 ddosserver-config.py
+
+    - name: Configure gateway2
+      shell: kubectl exec -n ddos gateway2 -- python3 gateway2-config.py
+
+    - name: Configure gateway1
+      shell: kubectl exec -n ddos gateway1 -- python3 gateway1-config.py
+
+
+    - name: Get cgserver IP
+      shell: "kubectl exec -n ddos cgserver -- ip addr show eth1 | awk '/inet / {gsub(/\\/\\/[0-9]+/, \"\", $2); print $2}'"
+      register: cgserver_ip_output
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Extract IP from cgserver_ip_output
+      set_fact:
+        cgserver_ip: "{{ cgserver_ip_output.stdout.split('/')[0] }}"
+        
+    - name: Debug cgserverip
+      debug:
+        var: cgserver_ip
+
+    - name: Get ddosserver IP
+      shell: "kubectl exec -n ddos ddosserver -- ip addr show eth1 | awk '/inet / {gsub(/\\/\\/[0-9]+/, \"\", $2); print $2}'"
+      register: ddosserver_ip_output
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Extract IP from ddosserver_ip_output
+      set_fact:
+        ddosserver_ip: "{{ ddosserver_ip_output.stdout.split('/')[0] }}"
+        
+    - name: Debug ddosserverip
+      debug:
+        var: ddosserver_ip   
+        
+        
+    - name: Store server IPs in a file
+      copy:
+        content: |
+          ddosserver_ip: "{{ ddosserver_ip }}"
+          cgserver_ip: "{{ cgserver_ip }}"
+        dest: "{{ playbook_dir }}/server_ips.yaml"
+
+
+    - name: "Configure {{ client.pod }}"
+      shell: kubectl exec -it -n ddos {{ client.pod }} -- python3 {{ client.name }}-config.py
+      loop: "{{ cgclients + ddosclients }}"
+      loop_control:
+        loop_var: client
+        
+#---------------------------------------export variables----------------------------------------------------------------------------------------------
+        
+    - name: Generate custom .bashrc 
+      shell: kubectl exec -n ddos {{ client.pod }} -- /bin/bash -c 'echo "export cgserver={{ cgserver_ip }}" >> /root/.bashrc && echo "export ddosserver={{ ddosserver_ip }}" >> /root/.bashrc'
+      loop: "{{ cgclients + ddosclients + [{'name': 'cgserver', 'pod': 'cgserver'}, {'name': 'ddosserver', 'pod': 'ddosserver'}] }}"
+      loop_control:
+        loop_var: client
+      when: "'client' in client.name or 'server' in client.name"
+      ignore_errors: yes
+
+    - name: Source.bashrc 
+      shell: kubectl exec -n ddos {{ client.pod }} -- /bin/bash -c 'source /root/.bashrc'
+      loop: "{{ cgclients + ddosclients + [{'name': 'cgserver', 'pod': 'cgserver'}, {'name': 'ddosserver', 'pod': 'ddosserver'}] }}"
+      loop_control:
+        loop_var: client
+      when: "'client' in client.name or 'server' in client.name"
+      ignore_errors: yes
+        
+
+  #---------------------------------------internet pod configuration----------------------------------------------------------------------------------------------
+      
+    - name: Iptables
+      shell: kubectl exec -n ddos gateway2 -- /bin/sh -c 'iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE'
+      ignore_errors: yes
+      
+ #---------------------------------------configure resolv.conf----------------------------------------------------------------------------------------------       
+    
+    - name: Configure resolv.conf in ddosclient1
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo echo -e "nameserver $ddosserver\noptions edns0" > /etc/resolv.conf'
+      loop: "{{ ddosclients }}" 
+      ignore_errors: yes
+
+    - name: Configure resolv.conf in cgclient
+      shell: kubectl exec -n ddos {{ client.pod  }} -- /bin/bash -c 'sudo echo -e "nameserver 8.8.8.8\noptions edns0" > /etc/resolv.conf'
+      loop: "{{ cgclients + [{'name': 'cgserver', 'pod': 'cgserver'}, {'name': 'ddosserver', 'pod': 'ddosserver'}] }}"
+      loop_control:
+        loop_var: client
+      when: "'client' in client.name or 'server' in client.name" 
+      ignore_errors: yes
+
+ #---------------------------------------configure micaddy.com ip----------------------------------------------------------------------------------------------   
+
+    - name: Update micaddy.com IP
+      shell:  kubectl exec -n ddos ddosserver -- env ddosserver={{ ddosserver_ip }}  /bin/bash -c '/bin/sed -i "s/172\\.21\\.0\\.6/$ddosserver/g" /etc/bind/zones/db.micaddy.com'
+      ignore_errors: yes
+
+ #---------------------------------------configure for synflood----------------------------------------------------------------------------------------------   
+
+    - name: Iptables
+      shell: kubectl exec -n ddos {{ client.pod }} -- /bin/sh -c 'iptables -I OUTPUT -p tcp --dport 80 --tcp-flags RST RST -j DROP && iptables -I OUTPUT -p tcp --dport 80 --tcp-flags RST ACK -j DROP'
+      loop: "{{ ddosclients }}"
+      loop_control:
+        loop_var: client
+      ignore_errors: yes
+
+#---------------------------------------debug routers----------------------------------------------------------------------------------------------
+
+    - name: Debug cgserver connection
+      shell: kubectl exec -n ddos cgclient1 -- env cgserver={{ cgserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 $cgserver; do :; done; exit 0'
+      ignore_errors: yes
+
+    - name: Debug ddosserver connection
+      shell: kubectl exec -n ddos ddosclient1 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 $ddosserver; do :; done; exit 0'
+      ignore_errors: yes
+
+    - name: Debug internet connection
+      shell: kubectl exec -n ddos ceos1 -- /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0'
+      ignore_errors: yes
+
+#---------------------------------------tcpdump----------------------------------------------------------------------------------------------
+
+    - name: Start dumps
+      shell: kubectl exec -n ddos {{ item.pod }} -- tcpdump -i {{ item.interface }} -w /home/{{ item.pod }}_{{ item.interface }}.pcap
+      loop:
+        - { pod: "ceos11", interface: "eth4" }
+        - { pod: "ceos11", interface: "eth1" }
+        - { pod: "ceos11", interface: "eth2" }
+        - { pod: "ceos11", interface: "eth3" }
+        - { pod: "ceos11", interface: "eth5" }
+        - { pod: "ceos11", interface: "eth6" }
+        - { pod: "ceos11", interface: "eth7" }
+        - { pod: "ceos11", interface: "eth8" }
+        - { pod: "ceos11", interface: "eth9" }
+        - { pod: "ceos11", interface: "eth10" }
+        - { pod: "ceos11", interface: "eth11" }
+        - { pod: "ceos11", interface: "eth12" }
+        - { pod: "ceos11", interface: "eth13" }
+        - { pod: "ceos11", interface: "eth14" }
+        - { pod: "ceos11", interface: "eth15" }
+        - { pod: "ceos11", interface: "eth16" }
+        - { pod: "ceos11", interface: "eth17" }
+        - { pod: "ceos11", interface: "eth18" }
+        - { pod: "ceos11", interface: "eth19" }
+        - { pod: "ceos11", interface: "eth20" }
+        - { pod: "ceos11", interface: "eth21" }
+        - { pod: "ceos11", interface: "eth22" }
+        - { pod: "ceos11", interface: "eth23" }
+        - { pod: "ceos13", interface: "eth1" }
+        - { pod: "ceos13", interface: "eth2" }
+        - { pod: "ceos13", interface: "eth3" }
+        - { pod: "ceos13", interface: "eth4" }
+        - { pod: "ceos13", interface: "eth5" }
+        - { pod: "ceos13", interface: "eth6" }
+        - { pod: "ceos13", interface: "eth7" }
+        - { pod: "ceos13", interface: "eth8" }
+        - { pod: "ceos13", interface: "eth9" }
+        - { pod: "ceos13", interface: "eth10" }
+        - { pod: "ceos13", interface: "eth11" }
+        - { pod: "ceos1", interface: "eth2" }
+        - { pod: "ceos1", interface: "eth3" }
+        - { pod: "ceos1", interface: "eth4" }
+        - { pod: "ceos1", interface: "eth5" }
+        - { pod: "ceos2", interface: "eth1" }
+        - { pod: "ceos2", interface: "eth2" }
+        - { pod: "ceos2", interface: "eth3" }
+        - { pod: "ceos2", interface: "eth4" }
+        - { pod: "ceos2", interface: "eth5" }
+        - { pod: "ceos3", interface: "eth1" }
+        - { pod: "ceos3", interface: "eth2" }
+        - { pod: "ceos3", interface: "eth3" }
+        - { pod: "ceos3", interface: "eth4" }
+        - { pod: "ceos3", interface: "eth5" }
+        - { pod: "ceos4", interface: "eth2" }
+        - { pod: "ceos4", interface: "eth3" }
+        - { pod: "ceos4", interface: "eth4" }
+        - { pod: "ceos6", interface: "eth2" }
+        - { pod: "ceos6", interface: "eth3" }
+        - { pod: "ceos6", interface: "eth4" }
+        - { pod: "ceos5", interface: "eth2" }
+        - { pod: "ceos5", interface: "eth3" }
+        - { pod: "ceos7", interface: "eth2" }
+        - { pod: "ceos7", interface: "eth3" }
+        - { pod: "ceos7", interface: "eth4" }
+        - { pod: "ceos12", interface: "eth2" }
+        - { pod: "ceos12", interface: "eth4" }
+      async: 3600
+      poll: 0
+
+
+#---------------------------------------ddosclient, cgserver and ddosserver configuration----------------------------------------------------------------------------------------------
+
+    - name: Start ACROSSserver.py
+      shell: kubectl exec -n ddos cgserver -- python3 ACROSSserver.py &
+    
+    - name: Start ssh
+      shell: kubectl exec -n ddos cgserver -- /usr/sbin/sshd -D &
+
+    - name: Start bind9
+      shell: kubectl exec -n ddos ddosserver -- service named start
+
+    - name: Start caddy
+      shell: kubectl exec -n ddos ddosserver -- caddy run --config /etc/caddy/Caddyfile &
+
+    - name: Start dnsdist
+      shell: kubectl exec -n ddos ddosserver -- service dnsdist start
+
+    # - name: Start dnscrypt
+    #   shell: kubectl exec -n ddos {{ item.pod }} -- ./dnscrypt-proxy-linux_x86_64-2.1.5/config.sh
+    #   loop: "{{ ddosclients }}" 

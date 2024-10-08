@@ -1,0 +1,115 @@
+---
+- name: Execute task in pods
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: clients_number.yaml
+  
+    - name: Crear cgclients
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+    
+    - name: Crear ddosclients
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+    
+    - name: Include server IPs
+      include_vars:
+        file: "{{ playbook_dir }}/server_ips.yaml"
+
+    - name: Debug loaded server IPs
+      debug:
+        var: ddosserver_ip
+
+    - name: Debug loaded server IPs
+      debug:
+        var: cgserver_ip
+
+
+#-----------------------------TCPDUMPS-------------------------------------------------------------------------------------------------
+
+    - name: Start dumps
+      shell: kubectl exec -n ddos {{ item.pod }} -- tcpdump -i {{ item.interface }} -w /home/{{ item.pod }}_{{ item.interface }}.pcap
+      loop:
+        - { pod: "ceos1", interface: "eth4" }
+        - { pod: "ceos1", interface: "eth1" }
+        - { pod: "ceos1", interface: "eth2" }
+        - { pod: "ceos1", interface: "eth3" }
+        - { pod: "ceos1", interface: "eth5" }
+        - { pod: "ceos1", interface: "eth6" }
+        - { pod: "ceos1", interface: "eth7" }
+        - { pod: "ceos2", interface: "eth4" }
+        - { pod: "ceos2", interface: "eth1" }
+        - { pod: "ceos2", interface: "eth2" }
+        - { pod: "ceos2", interface: "eth3" }
+        - { pod: "ceos3", interface: "eth4" }
+        - { pod: "ceos3", interface: "eth1" }
+        - { pod: "ceos3", interface: "eth2" }
+        - { pod: "ceos3", interface: "eth3" }
+        - { pod: "ceos4", interface: "eth4" }
+        - { pod: "ceos4", interface: "eth1" }
+        - { pod: "ceos4", interface: "eth2" }
+        - { pod: "ceos4", interface: "eth3" }
+      async: 3600
+      poll: 0
+
+
+#---------------------------------Tasks execution---------------------------------------------------------------------------------------
+    # Cglient:
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos cgclient1 -- python3 ACROSSconsuming_video.py https://www.youtube.com/watch?v=-No-226O0tg 1800 #set time and url
+      async: 3600 
+      poll: 0
+      register: acrossclient_result
+
+    - name: Execute ACROSSclient
+      shell: kubectl exec -n ddos cgclient2 -- env cgserver={{ cgserver_ip }} python3 ACROSSclient.py 100000
+      async: 3600 
+      poll: 0
+
+    - name: Execute ACROSSrandom_walk
+      shell: kubectl exec -n ddos cgclient3 --  python3 ACROSSrandom_walk.py 1800
+      async: 3600 
+      poll: 0 
+      register: acrossclient_result1
+
+    - name: Execute ACROSSrandom_walk
+      shell: kubectl exec -n ddos cgclient4 --  python3 ACROSSrandom_walk.py 1800
+      async: 3600 
+      poll: 0  
+      register: acrossclient_result2
+
+    # ddosclient:
+    - name: Execute dns-amp
+      shell: kubectl exec -n ddos ddosclient1 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns_amp/dns-amp 10.0.24.1 -f domain.txt -t ANY -p 53 -s 10.0.25.1 -S -d 1800'
+      async: 3600 
+      poll: 0
+
+    - name: Execute vegeta.sh
+      shell: kubectl exec -n ddos ddosclient2 -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 1800
+      async: 3600 
+      poll: 0
+
+    # Waiting tasks
+    - name: Waiting
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      loop:
+        - "{{ acrossclient_result }}"
+        - "{{ acrossclient_result1 }}"
+        - "{{ acrossclient_result2 }}"
+      register: acrossclient_jobs
+      until: acrossclient_jobs.finished
+      retries: 999
+      delay: 15
+      ignore_errors: yes
+
