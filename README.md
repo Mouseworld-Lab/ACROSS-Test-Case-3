@@ -7,9 +7,9 @@ Scenario for TC3.1, TC3.3 &amp; TC3.4
 
 An example of how to create a topology using the `10csr.yaml` descriptor is shown below:
 
-![Topology](ACROSS_TC3.x.drawio.png)
+![Topology](ACROSS_TC3.x_nuevos_links.drawio.png)
 
-- Create the 13 routers csr topology:
+- Create the 10 routers csr topology:
    
 ```bash
 kne create kne/examples/cisco/13csr_RSTI/13csr.yaml
