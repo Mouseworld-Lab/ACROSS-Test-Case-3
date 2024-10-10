@@ -31,11 +31,18 @@ rutas = [
     "192.168.12.0/24"
 ]
 
+
 # Puerta de enlace y nombre de interfaz comunes para todas las rutas
 puerta_enlace = "10.0.11.1"
 interfaz = "eth1"
+
+puerta_enlace_eth2 = "11.0.11.1"
+interfaz_eth2 = "eth2"
 
 # Agregar cada ruta utilizando subprocess
 for ruta in rutas:
     comando = f"ip route add {ruta} via {puerta_enlace} dev {interfaz}"
     subprocess.run(comando, shell=True)
+
+comando_mgmt = "ip route add 11.0.10.0/24 dev eth2"
+subprocess.run(comando_mgmt, shell=True)

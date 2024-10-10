@@ -39,3 +39,6 @@ interfaz = "eth1"
 for ruta in rutas:
     comando = f"ip route add {ruta} via {puerta_enlace} dev {interfaz}"
     subprocess.run(comando, shell=True)
+
+comando_mgmt = "ip route add 11.0.10.0/24 dev eth2"
+subprocess.run(comando_mgmt, shell=True)
