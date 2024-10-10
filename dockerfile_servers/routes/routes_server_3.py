@@ -23,11 +23,8 @@ rutas = [
 ]
 
 # Puerta de enlace y nombre de interfaz comunes para todas las rutas
-puerta_enlace = "10.1.3.1"
+puerta_enlace = "10.1.3.5"
 interfaz = "eth1"
-
-# Agregar la dirección IP en eth1
-subprocess.run(comando_addr, shell=True)
 
 # Agregar cada ruta utilizando subprocess
 for ruta in rutas:
