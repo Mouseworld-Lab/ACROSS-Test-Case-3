@@ -32,7 +32,7 @@ rutas = [
 ]
 
 # Puerta de enlace y nombre de interfaz comunes para todas las rutas
-puerta_enlace = "10.0.14.1"
+puerta_enlace = "10.0.14.4"
 interfaz = "eth1"
 
 # Agregar cada ruta utilizando subprocess
