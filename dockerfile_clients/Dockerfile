@@ -22,7 +22,6 @@ RUN echo "across:${PASSWORD}" | chpasswd \
 
 COPY routes /home/across/routes
 COPY load_routes.sh /home/across/load_routes.sh
-COPY get_snmp_data_v5.sh /home/across/get_snmp_data_v5.sh
 
 
 EXPOSE 22
