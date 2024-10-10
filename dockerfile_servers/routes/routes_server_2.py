@@ -1,16 +1,13 @@
 import subprocess
 
 # Comando para agregar la dirección IP en la interfaz eth1
-comando_addr = "ip addr add 10.0.16.1/24 dev eth1"
+comando_addr = "ip addr add 10.1.2.10/24 dev eth1"
 subprocess.run(comando_addr, shell=True)
 
 # Definir las rutas a agregar
 rutas = [
-    "10.0.12.0/24",
-    "10.0.11.0/24",
-    "10.0.13.0/24",
-    "10.0.15.0/24",
-    "10.0.14.0/24",
+    "10.1.1.0/24",
+    "10.1.3.0/24",
     "192.168.1.0/24",
     "192.168.2.0/24",
     "192.168.3.0/24",
@@ -22,13 +19,11 @@ rutas = [
     "192.168.9.0/24",
     "192.168.10.0/24",
     "192.168.11.0/24",
-    "192.168.12.0/24",
-    "192.168.13.0/24",
-    "192.168.14.0/24"
+    "192.168.12.0/24"
 ]
 
 # Puerta de enlace y nombre de interfaz comunes para todas las rutas
-puerta_enlace = "10.0.16.12"
+puerta_enlace = "10.1.2.1"
 interfaz = "eth1"
 
 # Agregar la dirección IP en eth1
