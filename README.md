@@ -12,12 +12,12 @@ An example of how to create a topology using the `10csr.yaml` descriptor is show
 - Create the 10 routers csr topology:
    
 ```bash
-kne create kne/examples/cisco/13csr_RSTI/13csr.yaml
+kne create kne/examples/TC3.X_new_scenario/new_scenario.yaml
 ```
 
 - Delete the scenario:
 ```bash
-kne delete  kne/examples/cisco/13csr_RSTI/13csr.yaml
+kne delete  kne/examples/TC3.X_new_scenario/new_scenario.yamlcisco/13csr_RSTI/13csr.yaml
 ```
 
 - See the status of the pods:
@@ -30,41 +30,42 @@ Once the topology has been successfully deloyed, the device created with vrnetla
 - Identify the External-IP: 
 
 ```bash
-root@k8-controller:~# kubectl get services -n 13-csr
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
-service-r1    LoadBalancer   10.101.108.17    172.18.0.53   22:32305/TCP,830:32420/TCP   6m4s
-service-r10   LoadBalancer   10.99.54.39      172.18.0.59   22:30122/TCP,830:31624/TCP   6m
-service-r11   LoadBalancer   10.99.71.178     172.18.0.51   830:31995/TCP,22:30196/TCP   6m5s
-service-r12   LoadBalancer   10.104.126.184   172.18.0.56   22:30197/TCP,830:31175/TCP   6m2s
-service-r13   LoadBalancer   10.111.24.237    172.18.0.54   22:30916/TCP,830:31724/TCP   6m3s
-service-r2    LoadBalancer   10.105.44.34     172.18.0.55   22:31207/TCP,830:30341/TCP   6m2s
-service-r3    LoadBalancer   10.108.142.7     172.18.0.60   22:31962/TCP,830:31661/TCP   5m59s
-service-r4    LoadBalancer   10.98.149.41     172.18.0.61   830:30432/TCP,22:30630/TCP   5m58s
-service-r5    LoadBalancer   10.106.48.244    172.18.0.52   22:30717/TCP,830:31649/TCP   6m5s
-service-r6    LoadBalancer   10.101.200.167   172.18.0.50   22:31456/TCP,830:32107/TCP   6m5s
-service-r7    LoadBalancer   10.106.192.53    172.18.0.57   22:30534/TCP,830:30642/TCP   6m1s
-service-r8    LoadBalancer   10.97.189.65     172.18.0.62   22:32642/TCP,830:32498/TCP   5m57s
-service-r9    LoadBalancer   10.102.85.108    172.18.0.58   22:32289/TCP,830:30217/TCP   6m
+root@k8-controller:~# kubectl get services -n 10-ceos-v3
+NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+service-broker       LoadBalancer   10.99.49.219     172.18.0.62   22/TCP         110s
+service-probe1       LoadBalancer   10.101.49.211    172.18.0.55   22/TCP         113s
+service-probe2       LoadBalancer   10.98.72.210     172.18.0.54   22/TCP         114s
+service-probe3       LoadBalancer   10.110.142.86    172.18.0.63   22/TCP         109s
+service-probe4       LoadBalancer   10.111.152.160   172.18.0.51   22/TCP         114s
+service-probe5       LoadBalancer   10.98.165.90     172.18.0.60   22/TCP         111s
+service-probe6       LoadBalancer   10.96.47.14      172.18.0.56   22/TCP         113s
+service-probe7       LoadBalancer   10.99.23.92      172.18.0.53   22/TCP         114s
+service-probe8       LoadBalancer   10.97.55.219     172.18.0.61   22/TCP         111s
+service-probe9       LoadBalancer   10.108.81.118    172.18.0.52   22/TCP         114s
+service-r1           LoadBalancer   10.109.125.207   172.18.0.71   22:30797/TCP   59s
+service-r10          LoadBalancer   10.105.138.235   172.18.0.65   22:32389/TCP   81s
+service-r2           LoadBalancer   10.96.83.39      172.18.0.64   22:30782/TCP   83s
+service-r3           LoadBalancer   10.104.68.93     172.18.0.69   22:30835/TCP   60s
+service-r4           LoadBalancer   10.97.195.1      172.18.0.68   22:31510/TCP   64s
+service-r5           LoadBalancer   10.107.191.61    172.18.0.66   22:32620/TCP   72s
+service-r6           LoadBalancer   10.96.216.202    172.18.0.73   22:30816/TCP   50s
+service-r7           LoadBalancer   10.108.117.101   172.18.0.70   22:31178/TCP   59s
+service-r8           LoadBalancer   10.96.162.175    172.18.0.67   22:31135/TCP   69s
+service-r9           LoadBalancer   10.98.163.118    172.18.0.72   22:31344/TCP   50s
+service-routermgmt   LoadBalancer   10.97.60.236     172.18.0.57   22:31856/TCP   113s
+service-server1      LoadBalancer   10.108.172.120   172.18.0.59   22/TCP         112s
+service-server2      LoadBalancer   10.108.113.45    172.18.0.58   22/TCP         112s
+service-server3      LoadBalancer   10.102.35.134    172.18.0.50   22/TCP         114s
 ```
 
-- Access to the router:
+- Access to the router r1:
 
 ```bash
-ssh vrnetlab@172.18.0.58
-Password: VR-netlab9
+ssh admin@172.18.0.71
+Password: admin
 ```
 - Start ssh in the server and client containers
 
 ```bash
-kubectl -n 13-csr exec -it server1 -- service ssh start
-kubectl -n 13-csr exec -it server2 -- service ssh start
-kubectl -n 13-csr exec -it server3 -- service ssh start
-kubectl -n 13-csr exec -it server4 -- service ssh start
-kubectl -n 13-csr exec -it server5 -- service ssh start
-
-kubectl -n 13-csr exec -it client1 -- service ssh start
-kubectl -n 13-csr exec -it client2 -- service ssh start
-kubectl -n 13-csr exec -it client3 -- service ssh start
-kubectl -n 13-csr exec -it client4 -- service ssh start
-kubectl -n 13-csr exec -it client5 -- service ssh start
+sh enable_ssh_clients_and_servers.sh
 ```
