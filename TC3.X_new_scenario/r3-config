@@ -26,7 +26,7 @@ interface Ethernet5
 router ospf 1
    router-id 3.3.3.3
    network 192.168.2.0 0.0.0.255 area 1
-   network 192.168.3.0 0.0.0.255 area 2
+   network 192.168.3.0 0.0.0.255 area 0
    network 192.168.11.0 0.0.0.255 area 0
    network 10.0.13.0 0.0.0.255 area 0
 !
