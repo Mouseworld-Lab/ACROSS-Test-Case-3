@@ -64,8 +64,17 @@ service-server3      LoadBalancer   10.102.35.134    172.18.0.50   22/TCP       
 ssh admin@172.18.0.71
 Password: admin
 ```
+
 - Start ssh in the server and client containers
 
 ```bash
 sh enable_ssh_clients_and_servers.sh
 ```
+
+- Access to the probes (ej. probe1):
+
+```bash
+ssh across@172.18.0.55
+Password: 1234
+```
+
