@@ -424,6 +424,21 @@ links:
     z_int: "eth1"
 
   - a_node: "r1"
+    a_int: "eth3"
+    z_node: "server1"
+    z_int: "eth1"
+
+  - a_node: "r5"
+    a_int: "eth5"
+    z_node: "server2"
+    z_int: "eth1"
+
+  - a_node: "r7"
+    a_int: "eth5"
+    z_node: "server3"
+    z_int: "eth1"
+
+  - a_node: "r1"
     a_int: "eth5"
     z_node: "r2"
     z_int: "eth3"
