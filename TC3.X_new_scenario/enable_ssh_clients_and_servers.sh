@@ -20,7 +20,7 @@ kubectl -n 10-ceos-v3 exec -it server1 -- bash -c ". /home/across/load_routes.sh
 kubectl -n 10-ceos-v3 exec -it server2 -- bash -c ". /home/across/load_routes.sh"
 kubectl -n 10-ceos-v3 exec -it server3 -- bash -c ". /home/across/load_routes.sh"
 
-kubectl -n 10-ceos-v3 exec -it broker -- bash -c "./home/across/load_routes.sh"
+kubectl -n 10-ceos-v3 exec -it broker -- bash -c ". /home/across/load_routes.sh"
 
 kubectl -n 10-ceos-v3 exec -it probe1 -- bash -c ". /home/across/load_routes.sh"
 kubectl -n 10-ceos-v3 exec -it probe2 -- bash -c ". /home/across/load_routes.sh"
