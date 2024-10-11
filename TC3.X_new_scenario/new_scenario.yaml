@@ -3,7 +3,7 @@ nodes:
   - name: server1
     vendor: HOST
     config:
-      image: "rstiupm/across_server:v4"
+      image: "rstiupm/across_server:v5"
     services:
       22:
         name: ssh
@@ -12,7 +12,7 @@ nodes:
   - name: server2
     vendor: HOST
     config:
-      image: "rstiupm/across_server:v4"
+      image: "rstiupm/across_server:v5"
     services:
       22:
         name: ssh
@@ -21,7 +21,7 @@ nodes:
   - name: server3
     vendor: HOST
     config:
-      image: "rstiupm/across_server:v4"
+      image: "rstiupm/across_server:v5"
     services:
       22:
         name: ssh
@@ -30,7 +30,7 @@ nodes:
   - name: broker
     vendor: HOST
     config:
-      image: "rstiupm/across_server:v4"
+      image: "rstiupm/across_server:v5"
     services:
       22:
         name: ssh
@@ -39,7 +39,7 @@ nodes:
   - name: probe1
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -48,7 +48,7 @@ nodes:
   - name: probe2
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -57,7 +57,7 @@ nodes:
   - name: probe3
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -66,7 +66,7 @@ nodes:
   - name: probe4
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -75,7 +75,7 @@ nodes:
   - name: probe5
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -84,7 +84,7 @@ nodes:
   - name: probe6
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -93,7 +93,7 @@ nodes:
   - name: probe7
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -102,7 +102,7 @@ nodes:
   - name: probe8
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
@@ -111,7 +111,7 @@ nodes:
   - name: probe9
     vendor: HOST
     config:
-      image: "rstiupm/across_client:v5"
+      image: "rstiupm/across_client:v6"
     services:
       22:
         name: ssh
