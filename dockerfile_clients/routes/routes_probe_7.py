@@ -35,6 +35,9 @@ rutas = [
 puerta_enlace = "10.0.17.7"
 interfaz = "eth1"
 
+puerta_enlace_eth2 = "11.0.17.1"
+interfaz_eth2 = "eth2"
+
 # Agregar cada ruta utilizando subprocess
 for ruta in rutas:
     comando = f"ip route add {ruta} via {puerta_enlace} dev {interfaz}"
