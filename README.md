@@ -19,7 +19,7 @@ Using Ansible we have automated the deployment of the scenario. Therefore, You m
  ansible-playbook deployment-kne/mw-deployment.yaml  
 ```
 > **Note:**  
-> 1. It is necessary to load the images of the routers previously in the machine where the topology will be deployed.
+> 1. It is necessary to load the images of the clients and routers previously in the machine where the topology will be deployed.
 > 2. In the TC3.5_topology/10ceos_24cg_20dd_10ceos_rev4/pod-gateway2.yaml file, to enable internet access, we are connecting the pod to its host's interface. You need
 to modify the interface name accordingly, depending on which interface you want to connect to. 
 
