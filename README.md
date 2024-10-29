@@ -91,5 +91,5 @@ In this file we have to declare the differents programms that we are going to ex
 ![image2](images/image2.png)
 
 
-### Traffic Generations details
+### Traffic Generators details
 See extra documentation for more details about generators in clients [docs](docs/README.md)
