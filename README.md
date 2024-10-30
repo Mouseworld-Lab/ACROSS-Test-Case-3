@@ -45,7 +45,8 @@ Throughout the document, we will describe the way of using the different playboo
 ![scenario](images/TopologyTC3.5.png)
 ## Usage
 
-> [!NOTE] With the script developed in python called **mw-run.py** it will allow us to run the playbooks in a guided and descriptive way. For greater customization, you can run the playbooks manually as described in the following sections.
+> [!NOTE]
+> With the script developed in python called **mw-run.py** it will allow us to run the playbooks in a guided and descriptive way. For greater customization, you can run the playbooks manually as described in the following sections.
 
 ### - clients_number.yaml
 The first thing to do is adjust in this file the number of clients that we want to deploy for traffic generation (**ddosclient** and **cgclient**). This file will be used by the different playbooks to display the exact number of clients:
