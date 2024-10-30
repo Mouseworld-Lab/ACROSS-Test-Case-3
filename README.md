@@ -27,18 +27,15 @@ to modify the interface name accordingly, depending on which interface you want 
 ```
 ansible-playbook deployment-kne/mw-config.yaml  
 ```
-#### 5. To delete of the topology execute the `mw-undeployment.yaml` file using the following command:
-```
-ansible-playbook deployment-kne/mw-undeployment.yaml  
-```
 #### 6. To execute of tasks `mw-tasks.yaml` file using the following command:
 ```
 ansible-playbook deployment-kne/mmw-tasks.yaml
 ```
-#### 7. To scale number of cliente of task `clients_number.yaml` file using the following command:
+#### 6. To delete of the topology execute the `mw-undeployment.yaml` file using the following command:
 ```
-ansible-playbook deployment-kne/clients_number.yaml
+ansible-playbook deployment-kne/mw-undeployment.yaml  
 ```
+
 
 
 Throughout the document, we will describe the way of using the different playbooks created. This will allow us to deploy the scenario (__mw-deployment.yaml__),configure the pods (__mw-config.yaml__), delete them (__mw-undeployment.yaml__) and execute tasks (__mw-tasks.yaml__). With this, we can easily **scale** the number of pods (__clients_number.yaml__) that we are going to deploy for different experiments. We can also decide the programs and scripts that we want to run as well as the execution time and other options.
