@@ -80,7 +80,7 @@ For more debug options in the deploymets with Ansible add: "<set_command> 2>&1 |
 
 ### - mw-tasks.yaml
 
-In this file we have to declare the differents programms that we are going to execute in the pods generated. Inside the file you can comment with **#** the tasks that you don't want to be executed. You can also configure the execution time of each task and other options:
+In this file we have to declare the differents programms/scripts that we are going to execute in the pods generated. Inside the file you can comment with **#** the tasks that you don't want to be executed. You can also configure the execution time of each task and other options:
 
 ![image2](images/image2.png)
 
