@@ -29,7 +29,7 @@ ansible-playbook deployment-kne/mw-config.yaml
 ```
 #### 5. To execute of tasks `mw-tasks.yaml` file using the following command:
 ```
-ansible-playbook deployment-kne/mmw-tasks.yaml
+ansible-playbook deployment-kne/mw-tasks.yaml
 ```
 #### 6. To delete of the topology execute the `mw-undeployment.yaml` file using the following command:
 ```
