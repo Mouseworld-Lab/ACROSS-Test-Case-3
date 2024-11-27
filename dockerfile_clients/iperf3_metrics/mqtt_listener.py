@@ -43,7 +43,7 @@ def on_message(client, userdata, message):
             print("El script iperf3_probe.sh y todos los procesos asociados se han detenido.")
         else:
             print("El script iperf3_probe.sh no se está ejecutando.")
-
+    
     elif msg == "snmp":
         print("Ejecutando el script get_snmp_data.sh...")
         snmp_process = subprocess.Popen(
