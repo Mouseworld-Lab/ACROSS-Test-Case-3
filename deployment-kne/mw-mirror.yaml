@@ -1,0 +1,34 @@
+---
+- name: Mirror with TC
+  hosts: localhost
+  gather_facts: no
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+#ansible-playbook --ask-become-pass mw-mirror.yaml
+
+#Deployment of the mirror pod
+
+    - name: Deploy mirror
+      shell: kubectl apply -f ~/NDT_TC3.5/deployment-kne/10ceos_24cg_20dd_10ceos_rev4/pod-mirror.yaml
+
+    - name: Wait for 20 seconds
+      pause:
+        seconds: 20
+
+#Execute TC inside the target pods - to mirror interface of wk4
+
+    - name: Start mirror ceos
+      shell: |
+        kubectl exec -n ddos ceos2 -- /bin/bash -c 'tc qdisc add dev eth3 ingress &&
+        tc filter add dev eth3 parent ffff: protocol all u32 match u8 0 0 action mirred egress mirror dev eth6 &&
+        tc qdisc add dev eth3 handle 1: root prio &&
+        tc filter add dev eth3 parent 1: protocol all u32 match u8 0 0 action mirred egress mirror dev eth6'
+      ignore_errors: yes
+
+    - name: Start mirror
+      shell: |
+        kubectl exec -n ddos mirror -- /bin/sh -c 'tc qdisc add dev eth1 ingress &&
+        tc filter add dev eth1 parent ffff: protocol all u32 match u8 0 0 action mirred egress mirror dev eth2 &&
+        tc qdisc add dev eth1 handle 1: root prio &&
+        tc filter add dev eth1 parent 1: protocol all u32 match u8 0 0 action mirred egress mirror dev eth2'
+      ignore_errors: yes

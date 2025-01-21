@@ -118,13 +118,13 @@
       poll: 0
 
     - name: Execute ACROSSconsuming_video.py
-      shell: kubectl exec -n ddos cgclient3 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/pewdiepie 480 #set time and url
+      shell: kubectl exec -n ddos cgclient3 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/leekbeats 480 #set time and url
       async: 3600 
       poll: 0
       register: twitch_result1
 
     - name: Execute ACROSSconsuming_video.py
-      shell: kubectl exec -n ddos cgclient4 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/pewdiepie 480 #set time and url
+      shell: kubectl exec -n ddos cgclient4 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/leekbeats 480 #set time and url
       async: 3600 
       poll: 0
       register: twitch_result2
@@ -159,13 +159,13 @@
       poll: 0
 
     - name: Execute ACROSSconsuming_video.py
-      shell: kubectl exec -n ddos cgclient10 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2187876112 480 #set time and url
+      shell: kubectl exec -n ddos cgclient10 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2309821783 480 #set time and url
       async: 3600 
       poll: 0
       register: twitch_result3
 
     - name: Execute ACROSSconsuming_video.py
-      shell: kubectl exec -n ddos cgclient11 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2187876112 480 #set time and url
+      shell: kubectl exec -n ddos cgclient11 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2309821783 480 #set time and url
       async: 3600 
       poll: 0
       register: twitch_result4

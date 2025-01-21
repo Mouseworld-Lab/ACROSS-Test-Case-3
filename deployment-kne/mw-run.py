@@ -1,5 +1,6 @@
 import click
 import subprocess
+import time
 
 @click.command()
 def main():
@@ -13,15 +14,29 @@ def main():
 
     subprocess.run(['ansible-playbook', 'mw-deployment.yaml'])
     subprocess.run(['ansible-playbook', 'mw-config.yaml'])
+    #subprocess.run(['ansible-playbook', 'mw-mirror.yaml'])
 
 
     # Playbook options
-    playbook_choices = ['mw-test1', 'mw-test2', 'mw-test10ceosrev', 'mw-test4' , 'mw-tasks', 'mw-testacross']
+    playbook_choices = [
+    'mw-tasks', 
+    'mw-testacross', 
+    'playbooks-datasets/TC3.5_benign_traffic_only', 
+    'playbooks-datasets/TC3.5_benign_HH_traffic_only', 
+    'playbooks-datasets/TC3.5_ddos_traffic_only'
+    'playbooks-datasets/TC3.5_all_at_once',
+    'playbooks-datasets/TC3.5_ddos_with_intervals',
+    'playbooks-datasets/TC3.5_unbalanced_traffic'	
+]
 
-    chosen_playbook_num = click.prompt("Choose the next playbook to execute (1: mw-test1, 2: mw-test2, 3: mw-test10ceosrev, 4: mw-test4 , 5: mw-tasks, 6: mw-testacross)", type=click.IntRange(1, 6))
+    chosen_playbook_num = click.prompt("Choose the next playbook to execute (1: mw-tasks, 2: mw-testacross, 3: TC3.5_benign_traffic_only, 4: TC3.5_benign_HH_traffic_only,"
+    "5: TC3.5_ddos_traffic_only, 6: TC3.5_all_at_once, 7: TC3.5_ddos_with_intervals, 8: TC3.5_unbalanced_traffic)", type=click.IntRange(1, 8))
+    
     chosen_playbook = playbook_choices[chosen_playbook_num - 1]
     subprocess.run(['ansible-playbook', f'{chosen_playbook}.yaml'])
 
+    # time.sleep(5)    
+    # subprocess.run(['ansible-playbook', 'playbooks-datasets/TC3.5_ddos_with_intervals.yaml'])
 
     # After executing, automatically execute mw-undeploy.yaml
     subprocess.run(['ansible-playbook', 'mw-undeploy.yaml'])

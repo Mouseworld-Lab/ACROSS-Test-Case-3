@@ -159,7 +159,7 @@
       ignore_errors: yes
 
     - name: Debug internet connection
-      shell: kubectl exec -n ddos ceos1 -- /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0'
+      shell: kubectl exec -n ddos ceos2 -- /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0'
       ignore_errors: yes
 
 #---------------------------------------tcpdump----------------------------------------------------------------------------------------------

