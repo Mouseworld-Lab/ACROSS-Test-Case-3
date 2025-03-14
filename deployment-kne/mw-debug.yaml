@@ -61,6 +61,12 @@
         - { pod: "ceos2" }
         - { pod: "ceos3" }
         - { pod: "ceos4" }
+        - { pod: "ceos5" }
+        - { pod: "ceos6" }
+        - { pod: "ceos7" }
+        - { pod: "ceos11" }
+        - { pod: "ceos12" }
+        - { pod: "ceos13" }
 
 
 

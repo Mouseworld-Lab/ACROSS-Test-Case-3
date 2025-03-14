@@ -14,7 +14,7 @@ def main():
 
     subprocess.run(['ansible-playbook', 'mw-deployment.yaml'])
     subprocess.run(['ansible-playbook', 'mw-config.yaml'])
-    #subprocess.run(['ansible-playbook', 'mw-mirror.yaml'])
+    subprocess.run(['ansible-playbook', 'mw-mirror.yaml'])
 
 
     # Playbook options
@@ -23,14 +23,15 @@ def main():
     'mw-testacross', 
     'playbooks-datasets/TC3.5_benign_traffic_only', 
     'playbooks-datasets/TC3.5_benign_HH_traffic_only', 
-    'playbooks-datasets/TC3.5_ddos_traffic_only'
+    'playbooks-datasets/TC3.5_ddos_traffic_only',
     'playbooks-datasets/TC3.5_all_at_once',
     'playbooks-datasets/TC3.5_ddos_with_intervals',
-    'playbooks-datasets/TC3.5_unbalanced_traffic'	
+    'playbooks-datasets/TC3.5_unbalanced_traffic',	
+    'mw-testacross-mitigation'
 ]
 
     chosen_playbook_num = click.prompt("Choose the next playbook to execute (1: mw-tasks, 2: mw-testacross, 3: TC3.5_benign_traffic_only, 4: TC3.5_benign_HH_traffic_only,"
-    "5: TC3.5_ddos_traffic_only, 6: TC3.5_all_at_once, 7: TC3.5_ddos_with_intervals, 8: TC3.5_unbalanced_traffic)", type=click.IntRange(1, 8))
+    "5: TC3.5_ddos_traffic_only, 6: TC3.5_all_at_once, 7: TC3.5_ddos_with_intervals, 8: TC3.5_unbalanced_traffic, 9: mw-testacross-mitigation)", type=click.IntRange(1, 9))
     
     chosen_playbook = playbook_choices[chosen_playbook_num - 1]
     subprocess.run(['ansible-playbook', f'{chosen_playbook}.yaml'])

@@ -176,7 +176,7 @@
 
 #--------------------------------------------Undeploy kne---------------------------------------------------------------------------
     - name: Undeploy topology
-      shell: kne delete ~/NDT_TC3.5/deployment-kne/10ceos_24cg_20dd_10ceos_rev4/topology-ACROSS.yaml
+      shell: kne delete ~/NDT_TC3.5/deployment-kne/11ceos_24cg_20dd_11ceos_rev4_mitigation/topology-ACROSS.yaml
       ignore_errors: yes
       
     # - name: Monitoring ssh transfer script

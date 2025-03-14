@@ -164,72 +164,72 @@
 
 #---------------------------------------tcpdump----------------------------------------------------------------------------------------------
 
-    - name: Start dumps
-      shell: kubectl exec -n ddos {{ item.pod }} -- tcpdump -i {{ item.interface }} -w /home/{{ item.pod }}_{{ item.interface }}.pcap
-      loop:
-        - { pod: "ceos11", interface: "eth4" }
-        - { pod: "ceos11", interface: "eth1" }
-        - { pod: "ceos11", interface: "eth2" }
-        - { pod: "ceos11", interface: "eth3" }
-        - { pod: "ceos11", interface: "eth5" }
-        - { pod: "ceos11", interface: "eth6" }
-        - { pod: "ceos11", interface: "eth7" }
-        - { pod: "ceos11", interface: "eth8" }
-        - { pod: "ceos11", interface: "eth9" }
-        - { pod: "ceos11", interface: "eth10" }
-        - { pod: "ceos11", interface: "eth11" }
-        - { pod: "ceos11", interface: "eth12" }
-        - { pod: "ceos11", interface: "eth13" }
-        - { pod: "ceos11", interface: "eth14" }
-        - { pod: "ceos11", interface: "eth15" }
-        - { pod: "ceos11", interface: "eth16" }
-        - { pod: "ceos11", interface: "eth17" }
-        - { pod: "ceos11", interface: "eth18" }
-        - { pod: "ceos11", interface: "eth19" }
-        - { pod: "ceos11", interface: "eth20" }
-        - { pod: "ceos11", interface: "eth21" }
-        - { pod: "ceos11", interface: "eth22" }
-        - { pod: "ceos11", interface: "eth23" }
-        - { pod: "ceos13", interface: "eth1" }
-        - { pod: "ceos13", interface: "eth2" }
-        - { pod: "ceos13", interface: "eth3" }
-        - { pod: "ceos13", interface: "eth4" }
-        - { pod: "ceos13", interface: "eth5" }
-        - { pod: "ceos13", interface: "eth6" }
-        - { pod: "ceos13", interface: "eth7" }
-        - { pod: "ceos13", interface: "eth8" }
-        - { pod: "ceos13", interface: "eth9" }
-        - { pod: "ceos13", interface: "eth10" }
-        - { pod: "ceos13", interface: "eth11" }
-        - { pod: "ceos1", interface: "eth2" }
-        - { pod: "ceos1", interface: "eth3" }
-        - { pod: "ceos1", interface: "eth4" }
-        - { pod: "ceos1", interface: "eth5" }
-        - { pod: "ceos2", interface: "eth1" }
-        - { pod: "ceos2", interface: "eth2" }
-        - { pod: "ceos2", interface: "eth3" }
-        - { pod: "ceos2", interface: "eth4" }
-        - { pod: "ceos2", interface: "eth5" }
-        - { pod: "ceos3", interface: "eth1" }
-        - { pod: "ceos3", interface: "eth2" }
-        - { pod: "ceos3", interface: "eth3" }
-        - { pod: "ceos3", interface: "eth4" }
-        - { pod: "ceos3", interface: "eth5" }
-        - { pod: "ceos4", interface: "eth2" }
-        - { pod: "ceos4", interface: "eth3" }
-        - { pod: "ceos4", interface: "eth4" }
-        - { pod: "ceos6", interface: "eth2" }
-        - { pod: "ceos6", interface: "eth3" }
-        - { pod: "ceos6", interface: "eth4" }
-        - { pod: "ceos5", interface: "eth2" }
-        - { pod: "ceos5", interface: "eth3" }
-        - { pod: "ceos7", interface: "eth2" }
-        - { pod: "ceos7", interface: "eth3" }
-        - { pod: "ceos7", interface: "eth4" }
-        - { pod: "ceos12", interface: "eth2" }
-        - { pod: "ceos12", interface: "eth4" }
-      async: 3600
-      poll: 0
+    # - name: Start dumps
+    #   shell: kubectl exec -n ddos {{ item.pod }} -- tcpdump -i {{ item.interface }} -w /home/{{ item.pod }}_{{ item.interface }}.pcap
+    #   loop:
+    #     - { pod: "ceos11", interface: "eth4" }
+    #     - { pod: "ceos11", interface: "eth1" }
+    #     - { pod: "ceos11", interface: "eth2" }
+    #     - { pod: "ceos11", interface: "eth3" }
+    #     - { pod: "ceos11", interface: "eth5" }
+    #     - { pod: "ceos11", interface: "eth6" }
+    #     - { pod: "ceos11", interface: "eth7" }
+    #     - { pod: "ceos11", interface: "eth8" }
+    #     - { pod: "ceos11", interface: "eth9" }
+    #     - { pod: "ceos11", interface: "eth10" }
+    #     - { pod: "ceos11", interface: "eth11" }
+    #     - { pod: "ceos11", interface: "eth12" }
+    #     - { pod: "ceos11", interface: "eth13" }
+    #     - { pod: "ceos11", interface: "eth14" }
+    #     - { pod: "ceos11", interface: "eth15" }
+    #     - { pod: "ceos11", interface: "eth16" }
+    #     - { pod: "ceos11", interface: "eth17" }
+    #     - { pod: "ceos11", interface: "eth18" }
+    #     - { pod: "ceos11", interface: "eth19" }
+    #     - { pod: "ceos11", interface: "eth20" }
+    #     - { pod: "ceos11", interface: "eth21" }
+    #     - { pod: "ceos11", interface: "eth22" }
+    #     - { pod: "ceos11", interface: "eth23" }
+    #     - { pod: "ceos13", interface: "eth1" }
+    #     - { pod: "ceos13", interface: "eth2" }
+    #     - { pod: "ceos13", interface: "eth3" }
+    #     - { pod: "ceos13", interface: "eth4" }
+    #     - { pod: "ceos13", interface: "eth5" }
+    #     - { pod: "ceos13", interface: "eth6" }
+    #     - { pod: "ceos13", interface: "eth7" }
+    #     - { pod: "ceos13", interface: "eth8" }
+    #     - { pod: "ceos13", interface: "eth9" }
+    #     - { pod: "ceos13", interface: "eth10" }
+    #     - { pod: "ceos13", interface: "eth11" }
+    #     - { pod: "ceos1", interface: "eth2" }
+    #     - { pod: "ceos1", interface: "eth3" }
+    #     - { pod: "ceos1", interface: "eth4" }
+    #     - { pod: "ceos1", interface: "eth5" }
+    #     - { pod: "ceos2", interface: "eth1" }
+    #     - { pod: "ceos2", interface: "eth2" }
+    #     - { pod: "ceos2", interface: "eth3" }
+    #     - { pod: "ceos2", interface: "eth4" }
+    #     - { pod: "ceos2", interface: "eth5" }
+    #     - { pod: "ceos3", interface: "eth1" }
+    #     - { pod: "ceos3", interface: "eth2" }
+    #     - { pod: "ceos3", interface: "eth3" }
+    #     - { pod: "ceos3", interface: "eth4" }
+    #     - { pod: "ceos3", interface: "eth5" }
+    #     - { pod: "ceos4", interface: "eth2" }
+    #     - { pod: "ceos4", interface: "eth3" }
+    #     - { pod: "ceos4", interface: "eth4" }
+    #     - { pod: "ceos6", interface: "eth2" }
+    #     - { pod: "ceos6", interface: "eth3" }
+    #     - { pod: "ceos6", interface: "eth4" }
+    #     - { pod: "ceos5", interface: "eth2" }
+    #     - { pod: "ceos5", interface: "eth3" }
+    #     - { pod: "ceos7", interface: "eth2" }
+    #     - { pod: "ceos7", interface: "eth3" }
+    #     - { pod: "ceos7", interface: "eth4" }
+    #     - { pod: "ceos12", interface: "eth2" }
+    #     - { pod: "ceos12", interface: "eth4" }
+    #   async: 3600
+    #   poll: 0
 
 
 #---------------------------------------ddosclient, cgserver and ddosserver configuration----------------------------------------------------------------------------------------------
