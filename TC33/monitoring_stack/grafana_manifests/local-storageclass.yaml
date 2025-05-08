@@ -1,0 +1,6 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner  # No provisionador dinámico
+volumeBindingMode: WaitForFirstConsumer  # El volumen se enlaza cuando el pod se programa
