@@ -1,0 +1,41 @@
+! Command: show running-config
+! device: r4 (cEOSLab, EOS-4.32.2F (engineering build))
+!
+hostname r4
+!
+ip routing
+!
+username admin privilege 15 role network-admin secret sha512 $6$YDkKMqrZIRO65B7i$NfH7OT8ujV12S.5q2sH7c7l1AEqhYULt9OSf9/EKaC4S8cNLppS.otHhr0QlC9Kud9Xbt4OdxVOkZiwV/yBV/1
+!
+interface Ethernet2
+ ip address 10.0.14.4 255.255.255.0
+ no switchport
+ speed 100full
+!
+interface Ethernet3
+ ip address 192.168.3.4 255.255.255.0
+ no switchport
+ speed 100full
+!
+interface Ethernet4
+ ip address 192.168.12.4 255.255.255.0
+ no switchport
+ speed 100full
+!
+interface Ethernet5
+ ip address 192.168.4.4 255.255.255.0
+ no switchport
+ speed 100full
+!
+router ospf 1
+   router-id 4.4.4.4
+   network 192.168.3.0 0.0.0.255 area 0
+   network 192.168.4.0 0.0.0.255 area 2
+   network 192.168.12.0 0.0.0.255 area 2
+   network 10.0.14.0 0.0.0.255 area 2
+!
+! SNMP configuration
+snmp-server community public ro
+snmp-server community private rw
+
+
