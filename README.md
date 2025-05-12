@@ -108,6 +108,8 @@ sudo ip link set mirror up
 ```
 ansible-playbook deployment-kne/mw-mirror.yaml
 ```
+The following image describes the process:
+![mirror](images/mirror_TC3.5.png)
 
 ### Traffic Generators details
 See extra [documentation](docs/README.md) for more details about generators in clients [docs](docs/README.md)
