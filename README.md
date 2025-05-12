@@ -104,7 +104,7 @@ sudo ip link add name mirror type dummy
 sudo ip link set mirror up  
 ```
 
-> Then, deploy the mirroring service by applying the mw-mirror.yaml file:
+> Then, deploy the mirroring by applying the mw-mirror.yaml file:
 ```
 ansible-playbook deployment-kne/mw-mirror.yaml
 ```
