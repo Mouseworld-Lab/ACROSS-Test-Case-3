@@ -206,7 +206,7 @@
       poll: 0
 
     - name: Execute vegeta.sh
-      shell: kubectl exec -n ddos ddosclient5 -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 300
+      shell: kubectl exec -n ddos ddosclient5 -- env ddosserver={{ ddosserver_ip }} maxworkers=99 ./vegeta.sh 300
       async: 3600 
       poll: 0
 
