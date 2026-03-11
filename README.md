@@ -1,5 +1,17 @@
 # ACROSS
 
+## Overview
+
+This repository contains the **ACROSS Network Digital Twin (NDT)** platform used to generate realistic network datasets for training machine learning and AI models focused on predictive and autonomous network management.
+
+The platform is built on a **Kubernetes cluster** using **KNE (Kubernetes Network Emulation)** to deploy network topologies composed of **Arista cEOS routers running in containers**. These emulated networks reproduce realistic operational conditions where specific configurations, traffic flows, congestion scenarios, degradations, and failure events can be systematically introduced.
+
+Monitoring probes deployed within the NDT collect detailed telemetry and performance metrics from the network. The collected data is used to build datasets aimed at training models capable of **anticipating congestion, QoS degradation, and potential SLA violations**.
+
+The ACROSS NDT supports the experimental scenarios developed in **TC3.1, TC3.3, and TC3.4**, where the main objective is the **generation of realistic and reproducible datasets**. Both the monitoring mechanisms and the resulting datasets are designed to be directly applicable to real network deployments, enabling the transition from controlled emulated environments to physical infrastructures.
+
+This repository includes the **topology definitions, deployment descriptors, and supporting tools** required to reproduce the NDT scenarios and generate the datasets used in the ACROSS experiments.
+
 ## Network Topology
 
 An example of how to create a topology using the `new_scenario_ceos_tc.yaml` descriptor is shown below.
@@ -13,14 +25,17 @@ An example of how to create a topology using the `new_scenario_ceos_tc.yaml` des
 The following scenarios are implemented in this repository.
 
 ## TC3.1 — Anticipatory Detection, Analysis & Prevention of Congestion Problems
+This sub-test evaluates the network’s ability to maintain quality service by ensuring the availability of required resources in multiple stakeholder net- works. It is based on predefined values such as latency, jitter, and errors. If potential issues are predicted, the network is reconfigured to avoid service degradation.
 
 ![Topology](images/TC31_global.PNG)
 
 ## TC3.3 — Smart QoS-aware Zero-Touch Traffic Engineering
+This sub-test focuses on Quality of Service (QoS) preservation in multiple stakeholder networks. It relies on predefined values for latency, jitter, and errors to predict and reconfigure the network for service optimization. An emulated network scenario with data and control plane links is employed, and QoS degradation is emulated, including error-related issues such as con- nection timeouts.
 
 ![Topology](images/TC33_global.PNG)
 
 ## TC3.4 — Intelligent Zero-Touch SLA Preservation
+This sub-test emphasizes the preservation of Service Level Agreements (SLAs) in multiple stakeholder networks. Using predefined values, including latency, jitter, and errors, SLAs are measured both end-to-end and per-hop. Predictive reconfiguration of the network is performed to ensure SLA preser- vation. Similar to previous sub-tests, it employs an emulated network sce- nario and emulates SLA violations, such as exceeding acceptable downtime specified in the SLA
 
 ![Topology](images/TC34_global.PNG)
 
