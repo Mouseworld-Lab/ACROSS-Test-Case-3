@@ -1,0 +1,31 @@
+# PROBE 1
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9611 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.71:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.71 --dport 9115 -j ACCEPT
+
+# PROBE 2
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9612 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.78:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.78 --dport 9115 -j ACCEPT
+
+# PROBE 3
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9613 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.73:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.73 --dport 9115 -j ACCEPT
+
+# PROBE 4
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9614 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.72:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.72 --dport 9115 -j ACCEPT
+
+# PROBE 6
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9616 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.70:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.70 --dport 9115 -j ACCEPT
+
+# PROBE 7
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9617 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.79:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.79 --dport 9115 -j ACCEPT
+
+# PROBE 8
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9618 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.81:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.81 --dport 9115 -j ACCEPT
+
+# PROBE 9
+sudo iptables -t nat -A PREROUTING -p tcp --dport 9619 -d 138.4.21.168 -j DNAT --to-destination 10.244.1.74:9115
+sudo iptables -A FORWARD -p tcp -d 10.244.1.74 --dport 9115 -j ACCEPT
