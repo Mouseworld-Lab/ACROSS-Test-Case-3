@@ -1,4 +1,9 @@
 # ACROSS
+
+An example of how to create a topology using the `new_scenario_ceos_tc.yaml` descriptor is shown below:
+
+![Topology](images/ACROSS_TC3.x_nuevos_links.drawio_v3.png)
+
 Scenario for TC3.1, TC3.3 &amp; TC3.4
 
 - TC3.1 Anticipatory Detection, Analysis, & Prevention of Congestion Problems
@@ -8,9 +13,17 @@ Scenario for TC3.1, TC3.3 &amp; TC3.4
 - TC3.4 Intelligent Zero-Touch SLA Preservation
   ![Topology](images/TC34_global.PNG)
 
-An example of how to create a topology using the `10csr.yaml` descriptor is shown below:
+Outcomes
 
-![Topology](images/ACROSS_TC3.x_nuevos_links.drawio_v3.png)
+- Datasets for TC3.1 Anticipatory Detection, Analysis, & Prevention of Congestion Problems
+https://zenodo.org/records/17255272
+
+- Datasets for TC3.3 Smart QoS-aware Zero-Touch Traffic Engineering
+https://zenodo.org/records/17255307
+
+- Datasets for TC3.4 Intelligent Zero-Touch SLA Preservation
+https://zenodo.org/records/17255327
+
 
 Example of use:
 - Create the 10 routers csr topology:
