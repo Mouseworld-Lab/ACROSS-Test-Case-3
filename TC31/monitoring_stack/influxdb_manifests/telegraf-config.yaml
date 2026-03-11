@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-config
+  namespace: monitoring
+data:
+  telegraf.conf: |
+    [agent]
+      interval = "10s"
+      round_interval = true
+      metric_batch_size = 1000
+      metric_buffer_limit = 10000
+      collection_jitter = "0s"
+      flush_interval = "10s"
+      flush_jitter = "0s"
+      precision = ""
+      hostname = ""
+      omit_hostname = true
+
+    [[inputs.prometheus]]
+      urls = [
+        "http://138.4.21.168:9116/snmp?target=10.244.1.13&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.9&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.11&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.247&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.10&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.239&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.14&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.12&module=if_mib&auth=public_v1",
+        "http://138.4.21.168:9116/snmp?target=10.244.1.8&module=if_mib&auth=public_v1"
+      ]
+
+    [[outputs.influxdb]]
+      urls = ["http://influxdb.monitoring.svc.cluster.local:8086"]
+      database = "metrics"
