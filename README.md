@@ -54,6 +54,24 @@ https://zenodo.org/records/17255307
 ### TC3.4 — Intelligent Zero-Touch SLA Preservation
 https://zenodo.org/records/17255327
 
+# ACROSS Outcomes Demo-Videos for each TC
+
+### TC3.1 — Anticipatory Detection, Analysis & Prevention of Congestion Problems
+
+[![TC3.1 Demo](https://img.youtube.com/vi/5iaajOp_w30/maxresdefault.jpg)](https://www.youtube.com/watch?v=5iaajOp_w30)
+
+---
+
+### TC3.3 — Smart QoS-aware Zero-Touch Traffic Engineering
+
+[![TC3.3 Demo](https://img.youtube.com/vi/CEMg2BINd5k/maxresdefault.jpg)](https://www.youtube.com/watch?v=CEMg2BINd5k)
+
+---
+
+### TC3.4 — Intelligent Zero-Touch SLA Preservation
+
+[![TC3.4 Demo](https://img.youtube.com/vi/ngyVykRuHrk/maxresdefault.jpg)](https://www.youtube.com/watch?v=ngyVykRuHrk)
+
 ---
 
 # Example of Use
