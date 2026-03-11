@@ -1,50 +1,66 @@
 # ACROSS
 
-An example of how to create a topology using the `new_scenario_ceos_tc.yaml` descriptor is shown below:
+## Network Topology
+
+An example of how to create a topology using the `new_scenario_ceos_tc.yaml` descriptor is shown below.
 
 ![Topology](images/ACROSS_TC3.x_nuevos_links.drawio_v3.png)
 
-Scenario for TC3.1, TC3.3 &amp; TC3.4
+---
 
-- TC3.1 Anticipatory Detection, Analysis, & Prevention of Congestion Problems
-  ![Topology](images/TC31_global.PNG)
-- TC3.3 Smart QoS-aware Zero-Touch Traffic Engineering
-  ![Topology](images/TC33_global.PNG)
-- TC3.4 Intelligent Zero-Touch SLA Preservation
-  ![Topology](images/TC34_global.PNG)
+# Scenarios
 
-Outcomes
+The following scenarios are implemented in this repository.
 
-- Datasets for TC3.1 Anticipatory Detection, Analysis, & Prevention of Congestion Problems
+## TC3.1 — Anticipatory Detection, Analysis & Prevention of Congestion Problems
+
+![Topology](images/TC31_global.PNG)
+
+## TC3.3 — Smart QoS-aware Zero-Touch Traffic Engineering
+
+![Topology](images/TC33_global.PNG)
+
+## TC3.4 — Intelligent Zero-Touch SLA Preservation
+
+![Topology](images/TC34_global.PNG)
+
+---
+
+# Outcomes
+
+The datasets generated for each scenario are publicly available.
+
+### TC3.1 — Anticipatory Detection, Analysis & Prevention of Congestion Problems
 https://zenodo.org/records/17255272
 
-- Datasets for TC3.3 Smart QoS-aware Zero-Touch Traffic Engineering
+### TC3.3 — Smart QoS-aware Zero-Touch Traffic Engineering
 https://zenodo.org/records/17255307
 
-- Datasets for TC3.4 Intelligent Zero-Touch SLA Preservation
+### TC3.4 — Intelligent Zero-Touch SLA Preservation
 https://zenodo.org/records/17255327
 
+---
 
-Example of use:
-- Create the 10 routers csr topology:
-   
+# Example of Use
+
+## 1. Create the 10-router topology
+
 ```bash
 kne create kne/examples/TC3.X_new_scenario/new_scenario.yaml
-```
 
-- Delete the scenario:
+## 2. Delete the scenario:
 ```bash
 kne delete  kne/examples/TC3.X_new_scenario/new_scenario.yamlcisco/13csr_RSTI/13csr.yaml
 ```
 
-- See the status of the pods:
+## 3. See the status of the pods:
 ```bash
 kubectl get pods -A -o wide -w
 ```
 
 Once the topology has been successfully deloyed, the device created with vrnetlab can be accessed with the default credentials, corresponding to the user and password, "vrnetlab" and "VR-netlab9" respectively and its external IP address.
 
-- Identify the External-IP: 
+## 4. Identify the External-IP: 
 
 ```bash
 root@k8-controller:~# kubectl get services -n 10-ceos-v3
@@ -75,20 +91,20 @@ service-server2      LoadBalancer   10.108.113.45    172.18.0.58   22/TCP       
 service-server3      LoadBalancer   10.102.35.134    172.18.0.50   22/TCP         114s
 ```
 
-- Access to the router r1:
+## 5. Access to the router r1:
 
 ```bash
 ssh admin@172.18.0.71
 Password: admin
 ```
 
-- Start ssh in the server and client containers
+## 6.  Start ssh in the server and client containers
 
 ```bash
 sh enable_ssh_clients_and_servers.sh
 ```
 
-- Access to the probes (ej. probe1):
+## 7.  Access to the probes (ej. probe1):
 
 ```bash
 ssh across@172.18.0.55
