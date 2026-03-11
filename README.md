@@ -2,13 +2,17 @@
 Scenario for TC3.1, TC3.3 &amp; TC3.4
 
 - TC3.1 Anticipatory Detection, Analysis, & Prevention of Congestion Problems
+  ![Topology](images/TC31_global.png)
 - TC3.3 Smart QoS-aware Zero-Touch Traffic Engineering
+  ![Topology](images/TC33_global.png)
 - TC3.4 Intelligent Zero-Touch SLA Preservation
+  ![Topology](images/TC34_global.png)
 
 An example of how to create a topology using the `10csr.yaml` descriptor is shown below:
 
 ![Topology](images/ACROSS_TC3.x_nuevos_links.drawio_v3.png)
 
+Example of use:
 - Create the 10 routers csr topology:
    
 ```bash
