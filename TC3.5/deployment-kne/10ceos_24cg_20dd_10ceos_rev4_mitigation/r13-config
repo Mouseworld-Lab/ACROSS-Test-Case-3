@@ -1,0 +1,139 @@
+! Command: show running-config
+! device: r13 (cEOSLab, EOS-4.26.1F (engineering build))
+!
+hostname r13
+!
+ip routing
+!
+username admin privilege 15 role network-admin secret sha512 $6$YDkKMqrZIRO65B7i$NfH7OT8ujV12S.5q2sH7c7l1AEqhYULt9OSf9/EKaC4S8cNLppS.otHhr0QlC9Kud9Xbt4OdxVOkZiwV/yBV/1
+
+interface Ethernet2
+  ip address 192.168.12.13/24
+  no switchport
+
+!
+interface Ethernet3
+  ip address 192.168.11.13/24
+  no switchport
+!
+interface Ethernet1
+  ip address 11.0.1.13/24
+  no switchport
+!
+interface Ethernet4
+  ip address 11.0.2.13/24
+  no switchport
+!
+!
+interface Ethernet5
+  ip address 11.0.3.13/24
+  no switchport
+!
+
+interface Ethernet6
+  ip address 11.0.4.13/24
+  no switchport
+!
+!
+interface Ethernet7
+  ip address 11.0.5.13/24
+  no switchport
+!
+interface Ethernet8
+  ip address 11.0.6.13/24
+  no switchport
+!
+!
+interface Ethernet9
+  ip address 11.0.7.13/24
+  no switchport
+!
+interface Ethernet10
+  ip address 11.0.8.13/24
+  no switchport
+!
+!
+interface Ethernet11
+  ip address 11.0.9.13/24
+  no switchport
+!
+!
+interface Ethernet12
+  ip address 11.0.10.13/24
+  no switchport
+!
+!
+interface Ethernet13
+  ip address 11.0.11.13/24
+  no switchport
+!
+interface Ethernet14
+  ip address 11.0.12.13/24
+  no switchport
+!
+interface Ethernet15
+  ip address 11.0.13.13/24
+  no switchport
+!
+interface Ethernet16
+  ip address 11.0.14.13/24
+  no switchport
+!
+interface Ethernet17
+  ip address 11.0.15.13/24
+  no switchport
+!
+interface Ethernet18
+  ip address 11.0.16.13/24
+  no switchport
+!
+interface Ethernet19
+  ip address 11.0.17.13/24
+  no switchport
+!
+interface Ethernet20
+  ip address 11.0.18.13/24
+  no switchport
+!
+interface Ethernet21
+  ip address 11.0.19.13/24
+  no switchport
+!
+interface Ethernet22
+  ip address 11.0.20.13/24
+  no switchport
+!
+
+ip route 0.0.0.0 0.0.0.0 192.168.12.3
+router ospf 1
+   router-id 13.13.13.13
+   network 192.168.12.0 0.0.0.255 area 2
+   network 192.168.11.0 0.0.0.255 area 2
+   network 11.0.1.0 0.0.0.255 area 2
+   network 11.0.2.0 0.0.0.255 area 2
+   network 11.0.3.0 0.0.0.255 area 2
+   network 11.0.4.0 0.0.0.255 area 2
+   network 11.0.5.0 0.0.0.255 area 2
+   network 11.0.6.0 0.0.0.255 area 2
+   network 11.0.7.0 0.0.0.255 area 2
+   network 11.0.8.0 0.0.0.255 area 2
+   network 11.0.9.0 0.0.0.255 area 2
+   network 11.0.10.0 0.0.0.255 area 2
+   network 11.0.11.0 0.0.0.255 area 2
+   network 11.0.12.0 0.0.0.255 area 2
+   network 11.0.13.0 0.0.0.255 area 2
+   network 11.0.14.0 0.0.0.255 area 2
+   network 11.0.15.0 0.0.0.255 area 2
+   network 11.0.16.0 0.0.0.255 area 2
+   network 11.0.17.0 0.0.0.255 area 2
+   network 11.0.18.0 0.0.0.255 area 2
+   network 11.0.19.0 0.0.0.255 area 2
+   network 11.0.20.0 0.0.0.255 area 2
+
+
+
+!
+!
+management api gnmi
+   transport grpc default
+!

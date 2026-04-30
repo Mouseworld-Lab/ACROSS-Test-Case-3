@@ -1,0 +1,312 @@
+---
+- name: Execute task in pods
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: "{{ playbook_dir }}/../clients_number.yaml"
+  
+    - name: Crear cgclients
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+    
+    - name: Crear ddosclients
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+    
+    - name: Include server IPs
+      include_vars:
+        file: "{{ playbook_dir }}/../server_ips.yaml"
+
+    - name: Debug loaded server IPs
+      debug:
+        var: ddosserver_ip
+
+    - name: Debug loaded server IPs
+      debug:
+        var: cgserver_ip
+
+
+
+#---------------------------------Tasks execution---------------------------------------------------------------------------------------
+    # Cglient:
+
+    - name: Execute ACROSSrandom_walk
+      shell: kubectl exec -n ddos cgclient12 -- python3.7 ACROSSrandom_walk.py 660
+      async: 3600 
+      poll: 0 
+      register: random_result1
+
+    - name: Execute ACROSSrandom_walk
+      shell: kubectl exec -n ddos cgclient13 -- python3.7 ACROSSrandom_walk.py 660
+      async: 3600 
+      poll: 0 
+      register: random_result2
+
+    - name: Execute file_transfer_wget
+      shell: kubectl exec -n ddos cgclient14 -- timeout 660 python3 ACROSSfile_transfer.py https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-stub-meta-history.xml.gz 400K
+      async: 3600 
+      poll: 0
+
+    - name: Execute file_transfer_wget
+      shell: kubectl exec -n ddos cgclient15 -- timeout 660 python3 ACROSSfile_transfer.py https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-stub-meta-history.xml.gz 400K
+      async: 3600 
+      poll: 0
+
+    - name: Execute file_transfer_scp_elephant
+      shell: kubectl exec -n ddos cgclient16 -- env cgserver={{ cgserver_ip }} timeout 660 python3 ACROSSfile_transfer_scp_elephant.py 16000
+      async: 3600 
+      poll: 0
+
+    - name: Execute file_transfer_scp_elephant
+      shell: kubectl exec -n ddos cgclient17 -- env cgserver={{ cgserver_ip }} timeout 660 python3 ACROSSfile_transfer_scp_elephant.py 16000
+      async: 3600 
+      poll: 0
+
+    - name: Execute benign dns request (dig)
+      shell: kubectl exec -n ddos cgclient18 -- ./ACROSSrand_dig.sh 660
+      async: 3600 
+      poll: 0
+
+    - name: Execute benign dns request (dig)
+      shell: kubectl exec -n ddos cgclient19 -- ./ACROSSrand_dig.sh 660
+      async: 3600 
+      poll: 0
+    
+    - name: Execute ACROSSconsuming_video_YT.py
+      shell: kubectl exec -n ddos cgclient20 -- python3.7 ACROSSconsuming_video_YT.py https://www.youtube.com/watch?v=wnhvanMdx4s 660 #set time and url
+      async: 3600 
+      poll: 0
+      register: youtube_result1
+
+    - name: Execute ACROSSconsuming_video_YT.py
+      shell: kubectl exec -n ddos cgclient21 -- python3.7 ACROSSconsuming_video_YT.py https://www.youtube.com/watch?v=wnhvanMdx4s 660 #set time and url
+      async: 3600 
+      poll: 0
+      register: youtube_result2
+
+    
+
+    
+
+
+
+    - name: Wait for 1 minute
+      pause:
+        seconds: 60
+
+
+
+
+
+    - name: Execute file_transfer wget
+      shell: kubectl exec -n ddos cgclient1 -- timeout 540 python3 ACROSSfile_transfer.py https://planet.openstreetmap.org/planet/planet-latest.osm.bz2 14M
+      async: 3600 
+      poll: 0
+
+    - name: Execute file_transfer_scp_elephant
+      shell: kubectl exec -n ddos cgclient2 -- env cgserver={{ cgserver_ip }} timeout 540 python3 ACROSSfile_transfer_scp_elephant.py 112000
+      async: 3600 
+      poll: 0
+
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos cgclient3 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/hitsquadgodfather 540 #set time and url
+      async: 3600 
+      poll: 0
+      register: twitch_result1
+
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos cgclient4 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/hitsquadgodfather 540 #set time and url
+      async: 3600 
+      poll: 0
+      register: twitch_result2
+
+    - name: Execute shorts
+      shell: kubectl exec -n ddos cgclient5 -- python3.7 ACROSSshorts.py 540
+      async: 3600 
+      poll: 0
+      register: shorts_result1
+
+    - name: Execute shorts
+      shell: kubectl exec -n ddos cgclient6 -- python3.7 ACROSSshorts.py 540
+      async: 3600 
+      poll: 0
+      register: shorts_result2
+
+    - name: Execute ACROSSfile_transfer_scp_chetaah
+      shell: kubectl exec -n ddos cgclient7 -- env cgserver={{ cgserver_ip }} timeout 540 python3 ACROSSfile_transfer_scp_cheetah.py 160000
+      async: 3600 
+      poll: 0
+
+    - name: Execute aria2c
+      shell: kubectl exec -n ddos cgclient8 -- timeout 540 aria2c --disable-ipv6=true --max-upload-limit=100 --max-download-limit=15M https://planet.openstreetmap.org/planet/planet-latest.osm.bz2.torrent
+      async: 3600 
+      poll: 0
+
+    - name: Execute nc listener
+      shell: kubectl exec -n ddos cgserver -- nc -l -p 20345 > /dev/null &
+    - name: Execute send_data_elephant
+      shell: kubectl exec -n ddos cgclient9 -- env cgserver={{ cgserver_ip }} python3 send_datta_elephant.py 20345 540
+      async: 3600 
+      poll: 0
+
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos cgclient10 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2274922101 540 #set time and url
+      async: 3600 
+      poll: 0
+      register: twitch_result3
+
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos cgclient11 -- python3.7 ACROSSconsuming_video.py https://www.twitch.tv/videos/2274922101 540 #set time and url
+      async: 3600 
+      poll: 0
+      register: twitch_result4
+
+
+
+
+
+
+    - name: Wait for 1 minute
+      pause:
+        seconds: 60
+
+  
+
+
+
+
+    # ddosclient:
+    - name: Execute hping TCP
+      shell: kubectl exec -n ddos ddosclient1 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -d 1200 -S $ddosserver -p 43 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping IP
+      shell: kubectl exec -n ddos ddosclient2 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -0 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping ICMP
+      shell: kubectl exec -n ddos ddosclient3 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -1 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping UDP
+      shell: kubectl exec -n ddos ddosclient4 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -2 -d 1200 -S $ddosserver -p 80 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute vegeta.sh
+      shell: kubectl exec -n ddos ddosclient5 -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 120
+      async: 3600 
+      poll: 0
+
+    - name: Execute dns-amp
+      shell: kubectl exec -n ddos ddosclient6 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns_amp/dns-amp $ddosserver -f domain.txt -t ANY -p 53 -s $cgserver -S -d 120'
+      async: 3600 
+      poll: 0
+
+    - name: Start dnscrypt for DOH
+      shell: kubectl exec -n ddos ddosclient7 -- ./dnscrypt-proxy-linux_x86_64-2.1.5/config.sh
+    - name: Execute doh flood
+      shell: kubectl exec -n ddos ddosclient7 -- timeout 120 python3 cne-DoH-master/floodoh.py 30000 www.example.com A https://micaddy.com/dns-query
+      async: 3600 
+      poll: 0
+
+    - name: Execute watertorture
+      shell: kubectl exec -n ddos ddosclient8 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns-flood/dnsflood example.com $ddosserver -s $cgserver -p 53 -R -S -d 120'
+      async: 3600 
+      poll: 0
+
+    - name: Execute synflood
+      shell: kubectl exec -n ddos ddosclient9 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'timeout 120 ./synflood-master/build/bin/synflood $ddosserver 80 -i eth1'
+      async: 3600 
+      poll: 0
+
+
+    - name: Wait for 2 minute
+      pause:
+        seconds: 300
+
+
+    # ddosclient:
+    - name: Execute hping TCP
+      shell: kubectl exec -n ddos ddosclient1 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -d 1200 -S $ddosserver -p 43 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping IP
+      shell: kubectl exec -n ddos ddosclient2 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -0 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping ICMP
+      shell: kubectl exec -n ddos ddosclient3 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -1 -d 1200 -S $ddosserver --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute hping UDP
+      shell: kubectl exec -n ddos ddosclient4 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo timeout 120 hping3 -2 -d 1200 -S $ddosserver -p 80 --flood'
+      async: 3600 
+      poll: 0
+
+    - name: Execute vegeta.sh
+      shell: kubectl exec -n ddos ddosclient5 -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 120
+      async: 3600 
+      poll: 0
+
+    - name: Execute dns-amp
+      shell: kubectl exec -n ddos ddosclient6 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns_amp/dns-amp $ddosserver -f domain.txt -t ANY -p 53 -s $cgserver -S -d 120'
+      async: 3600 
+      poll: 0
+
+    - name: Start dnscrypt for DOH
+      shell: kubectl exec -n ddos ddosclient7 -- ./dnscrypt-proxy-linux_x86_64-2.1.5/config.sh
+    - name: Execute doh flood
+      shell: kubectl exec -n ddos ddosclient7 -- timeout 120 python3 cne-DoH-master/floodoh.py 30000 www.example.com A https://micaddy.com/dns-query
+      async: 3600 
+      poll: 0
+
+    - name: Execute watertorture
+      shell: kubectl exec -n ddos ddosclient8 -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns-flood/dnsflood example.com $ddosserver -s $cgserver -p 53 -R -S -d 120'
+      async: 3600 
+      poll: 0
+
+    - name: Execute synflood
+      shell: kubectl exec -n ddos ddosclient9 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'timeout 120 ./synflood-master/build/bin/synflood $ddosserver 80 -i eth1'
+      async: 3600 
+      poll: 0
+
+
+
+
+    # Waiting tasks
+    - name: Waiting
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      loop:
+        - "{{ youtube_result1 }}"
+        - "{{ youtube_result2 }}"
+        - "{{ twitch_result1 }}"
+        - "{{ twitch_result2 }}"
+        - "{{ twitch_result3 }}"
+        - "{{ twitch_result4 }}"
+        - "{{ shorts_result1 }}"
+        - "{{ shorts_result2 }}"
+        - "{{ random_result1 }}"
+        - "{{ random_result2 }}"
+      register: acrossclient_jobs
+      until: acrossclient_jobs.finished
+      retries: 999
+      delay: 15
+      ignore_errors: yes
+

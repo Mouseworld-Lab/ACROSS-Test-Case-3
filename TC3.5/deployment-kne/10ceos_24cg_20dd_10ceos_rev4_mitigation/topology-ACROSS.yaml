@@ -1,0 +1,998 @@
+name: ddos
+nodes:
+- name: ceos1
+  model: ceos 
+  vendor: ARISTA 
+  config:
+    image: "ceos-4.33.1f:latest"
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r1-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+    eth5:
+      name: Ethernet5
+
+- name: ceos4
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r4-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+- name: ceos5
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r5-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+- name: ceos6
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r6-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+- name: ceos7
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r7-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+- name: ceos2
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r2-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth1:
+      name: Ethernet1
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+    eth5:
+      name: Ethernet5
+- name: ceos3
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r3-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth1:
+      name: Ethernet1
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+    eth5:
+      name: Ethernet5
+- name: ceos11
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r11-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth1:
+      name: Ethernet1
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+    eth5:
+      name: Ethernet5
+    eth6:
+      name: Ethernet6
+    eth7:
+      name: Ethernet7
+    eth8:
+      name: Ethernet8
+    eth9:
+      name: Ethernet9
+    eth10:
+      name: Ethernet10
+    eth11:
+      name: Ethernet11
+    eth12:
+      name: Ethernet12
+    eth13:
+      name: Ethernet13
+    eth14:
+      name: Ethernet14
+    eth15:
+      name: Ethernet15
+    eth16:
+      name: Ethernet16
+    eth17:
+      name: Ethernet17
+    eth18:
+      name: Ethernet18
+    eth19:
+      name: Ethernet19
+    eth20:
+      name: Ethernet20
+    eth21:
+      name: Ethernet21
+    eth22:
+      name: Ethernet22
+    eth23:
+      name: Ethernet23
+    eth24:
+      name: Ethernet24
+    eth25:
+      name: Ethernet25
+    eth26:
+      name: Ethernet26
+- name: ceos12
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r12-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth2:
+      name: Ethernet2
+    eth4:
+      name: Ethernet4
+- name: ceos13
+  model: ceos
+  os: eos
+  vendor: ARISTA
+  config:
+    config_path: /mnt/flash
+    config_file: startup-config
+    file: r13-config
+  services:
+     9339:
+         name: gnmi
+         inside: 6030
+  interfaces:
+    eth1:
+      name: Ethernet1
+    eth2:
+      name: Ethernet2
+    eth3:
+      name: Ethernet3
+    eth4:
+      name: Ethernet4
+    eth5:
+      name: Ethernet5
+    eth6:
+      name: Ethernet6
+    eth7:
+      name: Ethernet7
+    eth8:
+      name: Ethernet8
+    eth9:
+      name: Ethernet9
+    eth10:
+      name: Ethernet10
+    eth11:
+      name: Ethernet11
+    eth12:
+      name: Ethernet12
+    eth13:
+      name: Ethernet13
+    eth14:
+      name: Ethernet14
+    eth15:
+      name: Ethernet15
+    eth16:
+      name: Ethernet16
+    eth17:
+      name: Ethernet17
+    eth18:
+      name: Ethernet18
+    eth19:
+      name: Ethernet19
+    eth20:
+      name: Ethernet20
+    eth21:
+      name: Ethernet21
+    eth22:
+      name: Ethernet22
+- name: cgclient10
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient10-config.py
+    file: /configuracion/cgclient10-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient8
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient8-config.py
+    file: /configuracion/cgclient8-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient2
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient2-config.py
+    file: /configuracion/cgclient2-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient1
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient1-config.py
+    file: /configuracion/cgclient1-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient9
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient9-config.py
+    file: /configuracion/cgclient9-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient3
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient3-config.py
+    file: /configuracion/cgclient3-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient4
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient4-config.py
+    file: /configuracion/cgclient4-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient5
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient5-config.py
+    file: /configuracion/cgclient5-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient6
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient6-config.py
+    file: /configuracion/cgclient6-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient7
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient7-config.py
+    file: /configuracion/cgclient7-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgserver
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgserver-config.py
+    file: /configuracion/cgserver-config.py
+    image: javi14t/cgserver:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosserver
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosserver-config.py
+    file: /configuracion/ddosserver-config.py
+    image: javi14t/ddosserver:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient1
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient1-config.py
+    file: /configuracion/ddosclient1-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient2
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient2-config.py
+    file: /configuracion/ddosclient2-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient3
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient3-config.py
+    file: /configuracion/ddosclient3-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient7
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient7-config.py
+    file: /configuracion/ddosclient7-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient5
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient5-config.py
+    file: /configuracion/ddosclient5-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient4
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient4-config.py
+    file: /configuracion/ddosclient4-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient8
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient8-config.py
+    file: /configuracion/ddosclient8-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient10
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient10-config.py
+    file: /configuracion/ddosclient10-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient6
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient6-config.py
+    file: /configuracion/ddosclient6-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient9
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient9-config.py
+    file: /configuracion/ddosclient9-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient11
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient11-config.py
+    file: /configuracion/cgclient11-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient12
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient12-config.py
+    file: /configuracion/cgclient12-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient13
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient13-config.py
+    file: /configuracion/cgclient13-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient15
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient15-config.py
+    file: /configuracion/cgclient15-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient14
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient14-config.py
+    file: /configuracion/cgclient14-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient16
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient16-config.py
+    file: /configuracion/cgclient16-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient17
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient17-config.py
+    file: /configuracion/cgclient17-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient18
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient18-config.py
+    file: /configuracion/cgclient18-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient19
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient19-config.py
+    file: /configuracion/cgclient19-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient20
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient20-config.py
+    file: /configuracion/cgclient20-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: gateway1
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: gateway1-config.py
+    file: /configuracion/gateway1-config.py
+    image: javi14t/internet:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient21
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient21-config.py
+    file: /configuracion/cgclient21-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient22
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient22-config.py
+    file: /configuracion/cgclient22-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient23
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient23-config.py
+    file: /configuracion/cgclient23-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: cgclient24
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: cgclient24-config.py
+    file: /configuracion/cgclient24-config.py
+    image: javi14t/cgclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient11
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient11-config.py
+    file: /configuracion/ddosclient11-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient12
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient12-config.py
+    file: /configuracion/ddosclient12-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient13
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient13-config.py
+    file: /configuracion/ddosclient13-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient14
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient14-config.py
+    file: /configuracion/ddosclient14-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient15
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient15-config.py
+    file: /configuracion/ddosclient15-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient16
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient16-config.py
+    file: /configuracion/ddosclient16-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient17
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient17-config.py
+    file: /configuracion/ddosclient17-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient18
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient18-config.py
+    file: /configuracion/ddosclient18-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient19
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient19-config.py
+    file: /configuracion/ddosclient19-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+- name: ddosclient20
+  vendor: HOST
+  config:
+    config_path: /home/cognet
+    config_file: ddosclient20-config.py
+    file: /configuracion/ddosclient20-config.py
+    image: javi14t/ddosclient:last
+  interfaces:
+    eth1:
+      name: Ethernet1
+links:
+- a_node: ceos4
+  a_int: eth2
+  z_node: ceos1
+  z_int: eth2
+- a_node: ceos5
+  a_int: eth3
+  z_node: ceos2
+  z_int: eth5
+- a_node: ceos6
+  a_int: eth3
+  z_node: ceos5
+  z_int: eth2
+- a_node: ceos6
+  a_int: eth4
+  z_node: ceos4
+  z_int: eth4
+- a_node: ceos7
+  a_int: eth2
+  z_node: ceos6
+  z_int: eth2
+- a_node: ceos7
+  a_int: eth4
+  z_node: ceos3
+  z_int: eth3
+- a_node: ceos2
+  a_int: eth3
+  z_node: ceos1
+  z_int: eth3
+- a_node: ceos3
+  a_int: eth4
+  z_node: ceos2
+  z_int: eth4
+- a_node: ceos11
+  a_int: eth2
+  z_node: ceos1
+  z_int: eth4
+- a_node: ceos11
+  a_int: eth3
+  z_node: ceos4
+  z_int: eth3
+- a_node: ceos11
+  a_int: eth4
+  z_node: cgclient2
+  z_int: eth1
+- a_node: ceos11
+  a_int: eth10
+  z_node: cgclient8
+  z_int: eth1
+- a_node: ceos11
+  a_int: eth12
+  z_node: cgclient10
+  z_int: eth1
+- a_node: ceos12
+  a_int: eth2
+  z_node: ceos2
+  z_int: eth2
+- a_node: ceos12
+  a_int: eth4
+  z_node: ceos3
+  z_int: eth5
+- a_node: ceos13
+  a_int: eth1
+  z_node: ddosclient1
+  z_int: eth1
+- a_node: ceos13
+  a_int: eth2
+  z_node: ceos3
+  z_int: eth2
+- a_node: ceos13
+  a_int: eth3
+  z_node: ceos7
+  z_int: eth3
+- a_node: ceos13
+  a_int: eth4
+  z_node: ddosclient2
+  z_int: eth1
+- a_node: cgclient1
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth1
+- a_node: cgclient9
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth11
+- a_node: cgclient3
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth5
+- a_node: cgclient4
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth6
+- a_node: cgclient5
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth7
+- a_node: cgclient6
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth8
+- a_node: cgclient7
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth9
+- a_node: cgserver
+  a_int: eth1
+  z_node: ceos3
+  z_int: eth1
+- a_node: ddosserver
+  a_int: eth1
+  z_node: ceos1
+  z_int: eth5
+- a_node: ddosclient3
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth5
+- a_node: ddosclient7
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth9
+- a_node: ddosclient5
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth7
+- a_node: ddosclient4
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth6
+- a_node: ddosclient8
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth10
+- a_node: ddosclient10
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth12
+- a_node: ddosclient6
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth8
+- a_node: ddosclient9
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth11
+- a_node: cgclient11
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth13
+- a_node: cgclient12
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth14
+- a_node: cgclient13
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth15
+- a_node: cgclient15
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth17
+- a_node: cgclient14
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth16
+- a_node: cgclient16
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth18
+- a_node: cgclient17
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth19
+- a_node: cgclient18
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth20
+- a_node: cgclient19
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth21
+- a_node: cgclient20
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth22
+- a_node: gateway1
+  a_int: eth1
+  z_node: ceos2
+  z_int: eth1
+- a_node: cgclient21
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth23
+- a_node: cgclient22
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth24
+- a_node: cgclient23
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth25
+- a_node: cgclient24
+  a_int: eth1
+  z_node: ceos11
+  z_int: eth26
+- a_node: ddosclient11
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth13
+- a_node: ddosclient12
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth14
+- a_node: ddosclient13
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth15
+- a_node: ddosclient14
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth16
+- a_node: ddosclient15
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth17
+- a_node: ddosclient16
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth18
+- a_node: ddosclient17
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth19
+- a_node: ddosclient18
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth20
+- a_node: ddosclient19
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth21
+- a_node: ddosclient20
+  a_int: eth1
+  z_node: ceos13
+  z_int: eth22

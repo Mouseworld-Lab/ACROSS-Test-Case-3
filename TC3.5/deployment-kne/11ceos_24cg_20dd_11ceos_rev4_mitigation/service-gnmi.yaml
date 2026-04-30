@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    pod: ceos14-acl
+  name: service-gnmi
+  namespace: ddos
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerIP: 172.17.0.101
+  ports:
+    - name: gnmi6030
+      nodePort: 30171        # NodePort explícito configurado como puerto externo fijo
+      port: 6030             # Puerto del servicio (puerto externo)
+      protocol: TCP
+      targetPort: 6030       # Puerto interno del contenedor/pod
+  selector:
+    app: ceos14-acl          # Selector para los pods correspondientes
+  sessionAffinity: None
+  type: LoadBalancer

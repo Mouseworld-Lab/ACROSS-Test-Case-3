@@ -1,0 +1,30 @@
+---
+- name: Topology Deployment using kne
+  hosts: localhost
+  gather_facts: no
+  tasks: 
+ #--------------------------------------------Deploy kne---------------------------------------------------------------------------
+ 
+    - name: Deploy topology
+      shell: kne create ~/NDT_TC3.5/deployment-kne/11ceos_24cg_20dd_11ceos_rev4_mitigation/topology-ACROSS.yaml # Configure the path where the kne topology file is
+
+    # - name: Change daemon
+    #   shell:  kubectl exec -n ddos frr13 -- sh -c "sed -i 's/^ospfd=.*/ospfd=yes/' /etc/frr/daemons"
+    #   ignore_errors: yes
+
+    # - name: Ejecutar frrinit.sh para iniciar FRR dentro del pod
+    #   shell: kubectl exec -n ddos frr13 -- sudo /usr/lib/frr/frrinit.sh start
+    #   ignore_errors: yes
+
+    - name: Create gNMIc service
+      shell: kubectl apply -f ~/NDT_TC3.5/deployment-kne/11ceos_24cg_20dd_11ceos_rev4_mitigation/service-gnmi.yaml
+
+    - name: config map
+      shell: kubectl create configmap gateway2-config --from-file=/home/mw/NDT_TC3.5/deployment-kne/11ceos_24cg_20dd_11ceos_rev4_mitigation/configuracion/gateway2-config.py -n ddos
+
+    - name: Deploy gateway2
+      shell: kubectl apply -f ~/NDT_TC3.5/deployment-kne/11ceos_24cg_20dd_11ceos_rev4_mitigation/pod-gateway2.yaml
+
+    - name: Wait for 20 seconds
+      pause:
+        seconds: 20

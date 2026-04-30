@@ -1,0 +1,73 @@
+---
+- name: Topology Configuration
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cgclients: []
+    ddosclients: []
+    limit: 11
+    
+  tasks:
+#------------------------------------------Configuration---------------------------------------------------------------------
+    - name: Include client counts
+      include_vars:
+        file: clients_number.yaml
+        
+    - name: Create cgclients_count
+      set_fact:
+        cgclients: "{{ cgclients + [{'name': 'cgclient' ~ item, 'pod': 'cgclient' ~ item}] }}"
+      loop: "{{ range(1, cg_count + 1)|list }}"
+
+    - name: Create ddosclients_count
+      set_fact:
+        ddosclients: "{{ ddosclients + [{'name': 'ddosclient' ~ item, 'pod': 'ddosclient' ~ item}] }}"
+      loop: "{{ range(1, ddos_count + 1)|list }}"
+      
+    - name: Include server IPs
+      include_vars:
+        file: "{{ playbook_dir }}/server_ips.yaml"
+
+    - name: Debug loaded server IPs
+      debug:
+        var: ddosserver_ip
+
+    - name: Debug loaded server IPs
+      debug:
+        var: cgserver_ip
+
+
+#---------------------------------------debug routers----------------------------------------------------------------------------------------------
+
+    - name: Debug cgserver connection
+      shell: kubectl exec -n ddos {{ item.pod }} -- env cgserver={{ cgserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 $cgserver; do :; done; exit 0'
+      loop: "{{ cgclients }}"
+
+    - name: Debug cgserver internet connection
+      shell: kubectl exec -n ddos {{ item.pod }} -- env cgserver={{ cgserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0' # Fixed command
+      loop: "{{ cgclients }}"
+
+    - name: Debug ddosserver connection
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 $ddosserver; do :; done; exit 0'
+      loop: "{{ ddosclients }}"
+
+    - name: Debug ddosserver internet connection
+      shell: kubectl exec -n ddos {{ item.pod }} -- env ddosserver={{ ddosserver_ip }} /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0'
+      loop: "{{ ddosclients }}"
+
+    - name: Debug internet connection
+      shell: kubectl exec -n ddos {{ item.pod }} -- /bin/bash -c 'until ping -c 1 -i 20 8.8.8.8; do :; done; exit 0'
+      loop:
+        - { pod: "ceos1" }
+        - { pod: "ceos2" }
+        - { pod: "ceos3" }
+        - { pod: "ceos4" }
+        - { pod: "ceos5" }
+        - { pod: "ceos6" }
+        - { pod: "ceos7" }
+        - { pod: "ceos11" }
+        - { pod: "ceos12" }
+        - { pod: "ceos13" }
+
+
+
+
