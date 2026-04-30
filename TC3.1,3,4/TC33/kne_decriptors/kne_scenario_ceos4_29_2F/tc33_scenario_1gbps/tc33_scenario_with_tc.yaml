@@ -1,0 +1,508 @@
+name: across-tc33
+nodes:
+  - name: server1
+    vendor: HOST
+    config:
+      image: "rstiupm/across_server:v6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: server2
+    vendor: HOST
+    config:
+      image: "rstiupm/across_server:v6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: server3
+    vendor: HOST
+    config:
+      image: "rstiupm/across_server:v6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: broker
+    vendor: HOST
+    config:
+      image: "rstiupm/across_server:v6"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe1
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe2
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe3
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe4
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe5
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe6
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe7
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe8
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: probe9
+    vendor: HOST
+    config:
+      image: "rstiupm/across_probe:v2"
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r1
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r1-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r2
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r2-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r3
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r3-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r4
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r4-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r5
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r5-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r6
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r6-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r7
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r7-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r8
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r8-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r9
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r9-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: r10
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.29.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "r10-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+  - name: routermgmt
+    vendor: ARISTA
+    model: "ceos"
+    os: "eos"
+    config:
+      image: "ceos_tc:4.33.2F"
+      config_path: "/mnt/flash"
+      config_file: "startup-config"
+      file: "routermgmt-config"
+      cert:
+        self_signed:
+          cert_name: "gnmiCert.pem"
+          key_name: "gnmiCertKey.pem"
+          key_size: 4096
+    services:
+      22:
+        name: ssh
+        inside: 22
+
+links:
+  - a_node: "routermgmt"
+    a_int: "eth2"
+    z_node: "broker"
+    z_int: "eth1"
+
+  - a_node: "routermgmt"
+    a_int: "eth3"
+    z_node: "probe1"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth4"
+    z_node: "probe2"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth5"
+    z_node: "probe3"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth6"
+    z_node: "probe4"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth7"
+    z_node: "probe5"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth8"
+    z_node: "probe6"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth9"
+    z_node: "probe7"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth10"
+    z_node: "probe8"
+    z_int: "eth2"
+
+  - a_node: "routermgmt"
+    a_int: "eth11"
+    z_node: "probe9"
+    z_int: "eth2"
+
+  - a_node: "r1"
+    a_int: "eth2"
+    z_node: "probe1"
+    z_int: "eth1"
+
+  - a_node: "r2"
+    a_int: "eth2"
+    z_node: "probe2"
+    z_int: "eth1"
+
+  - a_node: "r3"
+    a_int: "eth2"
+    z_node: "probe3"
+    z_int: "eth1"
+
+  - a_node: "r4"
+    a_int: "eth2"
+    z_node: "probe4"
+    z_int: "eth1"
+
+  - a_node: "r5"
+    a_int: "eth2"
+    z_node: "probe5"
+    z_int: "eth1"
+
+  - a_node: "r6"
+    a_int: "eth2"
+    z_node: "probe6"
+    z_int: "eth1"
+
+  - a_node: "r7"
+    a_int: "eth2"
+    z_node: "probe7"
+    z_int: "eth1"
+
+  - a_node: "r8"
+    a_int: "eth2"
+    z_node: "probe8"
+    z_int: "eth1"
+
+  - a_node: "r9"
+    a_int: "eth2"
+    z_node: "probe9"
+    z_int: "eth1"
+
+  - a_node: "r1"
+    a_int: "eth3"
+    z_node: "server1"
+    z_int: "eth1"
+
+  - a_node: "r5"
+    a_int: "eth5"
+    z_node: "server3"
+    z_int: "eth1"
+
+  - a_node: "r7"
+    a_int: "eth5"
+    z_node: "server2"
+    z_int: "eth1"
+
+  - a_node: "r1"
+    a_int: "eth5"
+    z_node: "r2"
+    z_int: "eth3"
+
+  - a_node: "r1"
+    a_int: "eth4"
+    z_node: "r9"
+    z_int: "eth5"
+
+  - a_node: "r2"
+    a_int: "eth4"
+    z_node: "r9"
+    z_int: "eth4"
+
+  - a_node: "r2"
+    a_int: "eth5"
+    z_node: "r3"
+    z_int: "eth3"
+
+  - a_node: "r3"
+    a_int: "eth4"
+    z_node: "r10"
+    z_int: "eth3"
+
+  - a_node: "r3"
+    a_int: "eth5"
+    z_node: "r4"
+    z_int: "eth3"
+
+  - a_node: "r4"
+    a_int: "eth5"
+    z_node: "r5"
+    z_int: "eth3"
+
+  - a_node: "r4"
+    a_int: "eth4"
+    z_node: "r6"
+    z_int: "eth4"
+
+  - a_node: "r5"
+    a_int: "eth4"
+    z_node: "r6"
+    z_int: "eth3"
+
+  - a_node: "r6"
+    a_int: "eth6"
+    z_node: "r7"
+    z_int: "eth3"
+
+  - a_node: "r6"
+    a_int: "eth5"
+    z_node: "r8"
+    z_int: "eth4"
+
+  - a_node: "r8"
+    a_int: "eth3"
+    z_node: "r7"
+    z_int: "eth4"
+
+  - a_node: "r8"
+    a_int: "eth5"
+    z_node: "r10"
+    z_int: "eth2"
+
+  - a_node: "r8"
+    a_int: "eth6"
+    z_node: "r9"
+    z_int: "eth3"

@@ -1,0 +1,78 @@
+
+Probe1 [10.0.11.10]
+	- Enlace a medir:
+		probe1-probe2: 192.168.1.0/24
+		probe1-probe9: 192.168.8.0/24
+	- iperf3 server: No ejecuta
+	- iperf3 client:
+		- "iperf3 -c 10.0.12.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.19.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe2 [10.0.12.10]
+	- Enlace a medir:
+		probe2-probe3: 192.168.2.0/24
+		probe2-probe9: 192.168.9.0/24
+	- iperf3 server: "iperf3 -s --port 5201"
+	- iperf3 client:
+		- "iperf3 -c 10.0.13.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.19.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe3 [10.0.13.10]
+	- Enlace a medir:
+		probe3-probe4:	192.168.3.0/24
+		probe3-probe10:	192.168.11.0/24
+	- iperf3 server: "iperf3 -s --port 5201"
+	- iperf3 client:
+		- "iperf3 -c 10.0.14.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.20.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe4 [10.0.14.10]
+	- Enlace a medir:
+		probe4-probe5:	192.168.4.0/24
+		probe4-probe6: 	192.168.12.0/24
+	- iperf3 server: "iperf3 -s --port 5201"
+	- iperf3 client:
+		- "iperf3 -c 10.0.15.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.16.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe5 [10.0.15.10]
+	- Enlace a medir:
+		probe5-probe6:	192.168.5.0/24
+	- iperf3 server: "iperf3 -s --port 5201"
+	- iperf3 client:
+		- "iperf3 -c 10.0.16.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+
+Probe6 [10.0.16.10]
+	- Enlace a medir:
+		probe6-probe7:	192.168.13.0/24
+		probe6-probe8:	192.168.6.0/24
+	- iperf3 server: "iperf3 -s --port 5201 & iperf3 -s --port 5202 &"
+	- iperf3 client:
+		- "iperf3 -c 10.0.17.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.18.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe7 [10.0.17.10]
+	- Enlace a medir:
+		probe7-probe8:	192.168.14.0/24
+	- iperf3 server: "iperf3 -s --port 5201"
+	- iperf3 client:
+		- "iperf3 -c 10.0.17.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+
+Probe8 [10.0.18.10]
+	- Enlace a medir:
+		probe8-probe10:	192.168.10.0/24
+		probe8-probe9:	192.168.7.0/24
+	- iperf3 server: "iperf3 -s --port 5201 & iperf3 -s --port 5202 &"
+	- iperf3 client:
+		- "iperf3 -c 10.0.19.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_1 &&  tail -n 5 /tmp/iperf3_output_1 | head -n 3"
+		- "iperf3 -c 10.0.29.10 -u -b 1M -t 60 --logfile /tmp/iperf3_output_2 &&  tail -n 5 /tmp/iperf3_output_2 | head -n 3"
+
+Probe9 [10.0.19.10]
+	- Enlace a medir: No mide
+	- iperf3 server: "iperf3 -s --port 5201 & iperf3 -s --port 5202 & iperf3 -s --port 5203 &"
+	- iperf3 client: No ejecuta cliente
+
+Probe10 [10.0.20.10]	
+	- Enlace a medir: No mide
+	- iperf3 server: "iperf3 -s --port 5201 & iperf3 -s --port 5202&"
+	- iperf3 client: No ejecuta cliente

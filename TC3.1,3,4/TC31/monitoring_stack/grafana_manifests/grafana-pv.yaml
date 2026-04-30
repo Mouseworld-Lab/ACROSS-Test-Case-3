@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-pv
+  labels:
+    app: grafana
+spec:
+  capacity:
+    storage: 10Gi  # Ajusta según lo que necesites
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain  # No eliminar el PV cuando el PVC se elimine
+  storageClassName: local-storage  # La StorageClass definida previamente
+  local:
+    path: /mnt/disks/grafana  # Ruta al directorio o volumen local
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k8-big-worker  # Asegúrate de usar el nombre de tu nodo donde está el volumen

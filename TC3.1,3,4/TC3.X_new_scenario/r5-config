@@ -1,0 +1,35 @@
+! Command: show running-config
+! device: r5 (cEOSLab, EOS-4.32.2F (engineering build))
+!
+hostname r5
+!
+ip routing
+!
+username admin privilege 15 role network-admin secret sha512 $6$YDkKMqrZIRO65B7i$NfH7OT8ujV12S.5q2sH7c7l1AEqhYULt9OSf9/EKaC4S8cNLppS.otHhr0QlC9Kud9Xbt4OdxVOkZiwV/yBV/1
+!
+interface Ethernet2
+ ip address 10.0.15.5 255.255.255.0
+ no switchport
+!
+interface Ethernet3
+ ip address 192.168.4.5 255.255.255.0
+ no switchport
+!
+interface Ethernet4
+ ip address 192.168.5.5 255.255.255.0
+ no switchport
+!
+interface Ethernet5
+ ip address 10.1.3.5 255.255.255.0
+ no switchport
+!
+router ospf 1
+   router-id 5.5.5.5 
+   network 192.168.4.0 0.0.0.255 area 2
+   network 192.168.5.0 0.0.0.255 area 2
+   network 10.0.15.0 0.0.0.255 area 2
+   network 10.1.3.0 0.0.0.255 area 2
+!
+! SNMP configuration
+snmp-server community public ro
+snmp-server community private rw

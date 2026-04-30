@@ -1,0 +1,411 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+  labels:
+    name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 10s
+    scrape_configs:
+      - job_name: 'prometheus'
+        scrape_interval: 60s
+        static_configs:
+          - targets: ['localhost:9090']
+
+      - job_name: 'ml_tc34_exporter'
+        scrape_interval: 30s
+        static_configs:
+          - targets: ['138.4.21.168:8000']
+
+      - job_name: 'iperf3-probe1'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.19.10
+            - 10.0.12.10
+            - 10.0.15.10
+        params:
+          port: ['5201']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9511  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe1'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.19.10
+            - 10.0.12.10
+            - 10.1.3.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9611  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe2-A'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.13.10
+        params:
+          port: ['5201']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9512  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe2-A'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.13.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9612  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe2-B'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.19.10
+        params:
+          port: ['5202']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9512  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe2-B'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.19.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9612  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe3-A'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.14.10
+        params:
+          port: ['5201']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9513  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe3-A'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.14.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9613  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe3-B'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.18.10
+        params:
+          port: ['5202']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9513  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe3-B'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.18.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9613  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe4'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.16.10
+            - 10.0.15.10
+        params:
+          port: ['5202']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9514  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe4'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.16.10
+            - 10.0.15.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9614  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'blackbox_probe6'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.15.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9616  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe7'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.16.10
+        params:
+          port: ['5203']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9517  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe7'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.16.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9617  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe8'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.17.10
+            - 10.0.16.10
+        params:
+          port: ['5201']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9518  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe8'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.17.10
+            - 10.0.16.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9618  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'iperf3-probe9'
+        metrics_path: /probe
+        static_configs:
+          - targets:
+            - 10.0.18.10
+        params:
+          port: ['5201']
+          # Optional: enable reverse mode
+          # reverse_mode: ['true']
+          # Optional: enable UDP mode
+          udp_mode: ['true']
+          # Optional: set bitrate limit
+          bitrate: ['1M']
+          # Optional: set test period
+          period: ['60s']
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9519  # The iPerf3 exporter's real hostname:port.
+
+      - job_name: 'blackbox_probe9'
+        metrics_path: /probe
+        params:
+          module: [icmp]  # Módulo usado para hacer ping
+        static_configs:
+          - targets:
+            - 10.0.18.10
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9619  # Dirección y puerto del blackbox_exporter
+
+      - job_name: 'snmp'
+        static_configs:
+          - targets:
+              - 10.244.1.86 # R1
+              - 10.244.1.91 # R2
+              - 10.244.1.84  # R3
+              - 10.244.1.92  # R4
+              - 10.244.1.87 # R5
+              - 10.244.1.89  # R6
+              - 10.244.1.90  # R7
+              - 10.244.1.83  # R8
+              - 10.244.1.85  # R9
+
+        metrics_path: /snmp
+        params:
+          module: [if_mib]
+          auth: [public_v1]
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: 138.4.21.168:9116
