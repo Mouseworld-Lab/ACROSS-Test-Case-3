@@ -2,7 +2,9 @@
 # Test case 3: Intelligence-driven zero-touch orchestration
 
 ## Overview
-This repository contains the implementation and experimentation of **Test Case 3 (TC3)**, focused on enabling **AI-driven, zero-touch network orchestration**.
+
+This repository contains the implementation and experimentation of **Test Case 3** of the **ACROSS project**, focused on enabling **AI-driven zero-touch network orchestration**.
+
 ---
 
 ## Objectives
@@ -16,19 +18,19 @@ This repository contains the implementation and experimentation of **Test Case 3
 
 ## Test Cases
 
-### [TC3.1](./TC3.1_3_4/)   – Anticipatory detection, analysis and prevention of congestion problems​
+### [TC3.1](./TC3.1_3_4/) - Anticipatory detection, analysis and prevention of congestion problems​
 Ensure the availability of required resources in multi-stakeholder networks​
 
-### [TC3.2] (./TC3.2/) – Smart energy-aware zero-touch TE
+### [TC3.2](./TC3.2/) - Smart energy-aware zero-touch TE
 Incorporate energy consumption considerations into orchestration decisions 
 ​
-### [TC3.3](./TC3.1_3_4/) – Smart QoS-aware zero-touch Traffic Engineering​
+### [TC3.3](./TC3.1_3_4/) - Smart QoS-aware zero-touch Traffic Engineering​
 Quality of Service (QoS) preservation in multiple stakeholder networks
 ​
-### [TC3.4](./TC3.1_3_4/) –  Intelligent zero-touch SLA preservation
+### [TC3.4](./TC3.1_3_4/) - Intelligent zero-touch SLA preservation
 Preservation of Service Level Agreements (SLAs) in multiple stakeholder networks​
 
-### [TC3.5](./TC3.5/) – Heavy-hitter detection for zero-touch DDoS prevention​
+### [TC3.5](./TC3.5/) - Heavy-hitter detection for zero-touch DDoS prevention​
 Detection and filtering of DDoS traffic​
 
 ---
