@@ -1,0 +1,86 @@
+---
+- name: Mirror with TC
+  hosts: localhost
+  gather_facts: no
+#ansible-playbook --ask-become-pass mw-mirror.yaml
+  tasks:
+#--------------------------------------Configuration------------------------------------------------------------------------------------
+
+#Desplegar el pod mirror
+
+    - name: Deploy mirror
+      shell: kubectl apply -f ~/oldk8controller/k8cont/kne/examples/arista/UPM/10ceos_24cg_20dd_10ceos_rev4/pod-mirror.yaml
+
+    - name: Wait for 20 seconds
+      pause:
+        seconds: 20
+
+# #Aumentar MAT
+
+#     - name: Update MTU destino
+#       shell: kubectl exec -n test internet -- /bin/sh -c 'ip link set dev eth0 mtu 1500'
+
+#Ejecutar TC dentro de los pods objetivo
+
+    - name: Start mirror ceos
+      shell: |
+        kubectl exec -n ddos ceos2 -- /bin/bash -c 'tc qdisc add dev eth3 ingress &&
+        tc filter add dev eth3 parent ffff: protocol all u32 match u8 0 0 action mirred egress mirror dev eth6 &&
+        tc qdisc add dev eth3 handle 1: root prio &&
+        tc filter add dev eth3 parent 1: protocol all u32 match u8 0 0 action mirred egress mirror dev eth6'
+      ignore_errors: yes
+
+    - name: Start mirror
+      shell: |
+        kubectl exec -n ddos mirror -- /bin/sh -c 'tc qdisc add dev eth1 ingress &&
+        tc filter add dev eth1 parent ffff: protocol all u32 match u8 0 0 action mirred egress mirror dev eth2 &&
+        tc qdisc add dev eth1 handle 1: root prio &&
+        tc filter add dev eth1 parent 1: protocol all u32 match u8 0 0 action mirred egress mirror dev eth2'
+      ignore_errors: yes
+
+# #Obtener interfaces virtuales para hacer el mirror
+  
+#     # - name: Get ID of ceos2
+#     #   shell: kubectl exec -n ddos ceos2 -- ip -o link show eth0 | awk -F'@' '{print $2}' | cut -d':' -f1 | sed 's/^if//'
+#     #   register: ceos2_id_output
+
+#     - name: Get ID of UPM
+#       shell: kubectl exec -n test internet -- ip -o link show eth0 | awk -F'@' '{print $2}' | cut -d':' -f1 | sed 's/^if//'
+#       register: upm_id_output
+
+#     - name: Set ceos2_id and upm_id variable
+#       set_fact:
+#         #ceos2_id: "{{ ceos2_id_output.stdout }}"
+#         upm_id: "{{ upm_id_output.stdout }}"
+
+#     - name: Display extracted IDs
+#       debug:
+#         msg:
+#           #- "ceos2 ID: {{ ceos2_id }}"
+#           - "upm ID: {{ upm_id }}"
+
+#     # - name: Verify ceos2 interface
+#     #   shell: ip a | grep "{{ ceos2_id }}" | awk '{print $2}' | cut -d':' -f1 | sed 's/@.*//'
+#     #   delegate_to: 192.168.159.18
+#     #   register: remote_ceos2_interface
+
+#     - name: Verify UPM interface
+#       shell: ip a | grep "{{ upm_id }}" | awk '{print $2}' | cut -d':' -f1 | sed 's/@.*//'
+#       delegate_to: 192.168.159.18
+#       register: remote_upm_interface
+
+#     - name: Set interface variables
+#       set_fact:
+#         #ceos2_interface: "{{ remote_ceos2_interface.stdout }}"
+#         upm_interface: "{{ remote_upm_interface.stdout }}"
+
+#     - name: Display interface names
+#       debug:
+#         msg:
+#           #- "ceos2 interface: {{ ceos2_interface }}"
+#           - "upm interface: {{ upm_interface }}"
+
+#     - name: Execute mirror with ceos2 and upm interfaces
+#       shell: /home/mw/mirror-script.sh mirror {{ upm_interface }}
+#       delegate_to: 192.168.159.18
+#       become: yes  

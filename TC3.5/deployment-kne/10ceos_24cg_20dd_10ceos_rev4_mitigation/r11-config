@@ -168,3 +168,7 @@ router ospf 1
 management api gnmi
    transport grpc default
 !
+system l1
+   unsupported speed action warn
+   unsupported error-correction action warn
+!

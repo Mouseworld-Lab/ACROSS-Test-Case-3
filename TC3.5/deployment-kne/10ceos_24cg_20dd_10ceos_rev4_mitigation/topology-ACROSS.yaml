@@ -23,10 +23,10 @@ nodes:
       name: Ethernet5
 
 - name: ceos4
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r4-config
@@ -42,10 +42,10 @@ nodes:
     eth4:
       name: Ethernet4
 - name: ceos5
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r5-config
@@ -59,10 +59,10 @@ nodes:
     eth3:
       name: Ethernet3
 - name: ceos6
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r6-config
@@ -78,10 +78,10 @@ nodes:
     eth4:
       name: Ethernet4
 - name: ceos7
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r7-config
@@ -97,10 +97,10 @@ nodes:
     eth4:
       name: Ethernet4
 - name: ceos2
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r2-config
@@ -120,10 +120,10 @@ nodes:
     eth5:
       name: Ethernet5
 - name: ceos3
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r3-config
@@ -143,10 +143,10 @@ nodes:
     eth5:
       name: Ethernet5
 - name: ceos11
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r11-config
@@ -208,10 +208,10 @@ nodes:
     eth26:
       name: Ethernet26
 - name: ceos12
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r12-config
@@ -225,10 +225,10 @@ nodes:
     eth4:
       name: Ethernet4
 - name: ceos13
-  model: ceos
-  os: eos
-  vendor: ARISTA
+  model: ceos 
+  vendor: ARISTA 
   config:
+    image: "ceos-4.33.1f:latest"
     config_path: /mnt/flash
     config_file: startup-config
     file: r13-config
